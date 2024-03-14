@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.ttk import Button, Combobox
+from Buttons import HoverButton
+
 
 import mysql.connector
 from tkcalendar import DateEntry
@@ -14,15 +16,14 @@ class AddDetails(tk.Tk):
 
     def create_widgets(self):
         self.image3 = tk.PhotoImage(file="./Images/Bankimg1.png")
-        self.bank_label_3 = tk.Label(self, image=self.image3)
+        self.bank_label_3 = tk.Label(self, image=self.image3,)
         self.bank_label_3.place(x=0, y=0)
-        # Labels
-        labels = ["Name", "D.O.B", "Gender", "Address", "Account Type", "Balance"]
+        labels = ["Name:", "D.O.B:", "Gender:", "Address:", "Account Type:", "Balance:"]
         for i, label_text in enumerate(labels):
-            label = tk.Label(self, text=label_text, font=("Tahoma", 14, "bold"), fg="white", bg="gray")
-            label.place(x=50, y=30 + i * 70)
+            label = tk.Label(self, text=label_text, font=("Tahoma", 14, "bold"), fg="white",bg="black")
+            label.place(x=100, y=30 + i * 70)
 
-        # Entry Fields
+        # Entry FieldsD
         self.name_entry = tk.Entry(self, font=("Tahoma", 14))
         self.name_entry.place(x=250, y=30, width=300)
 
@@ -47,10 +48,10 @@ class AddDetails(tk.Tk):
         self.balance_entry.place(x=250, y=380, width=300)
 
         # Buttons
-        self.next_button = Button(self, text="NEXT", command=self.store_data)
+        self.next_button = HoverButton(self, text="NEXT",bg='#FFFFFF', command=self.store_data)
         self.next_button.place(x=300, y=470)
 
-        self.back_button = Button(self, text="Back", command=self.open_starter)
+        self.back_button = HoverButton(self, text="Back",bg='#FFFFFF', command=self.open_starter)
         self.back_button.place(x=100, y=470)
 
     def store_data(self):

@@ -2,14 +2,14 @@ import tkinter as tk
 from tkinter.ttk import Button
 from tkinter import messagebox
 import mysql.connector
-import ttkthemes
-from ttkthemes import ThemedTk
+from Buttons import HoverButton
+
 class Login(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Login")
         self.geometry("800x600")
-        self.configure(bg="white")
+        self.configure(bg='#F0F0F0')
 
         self.image2 = tk.PhotoImage(file="./Images/Bankimg1.png")
         self.bank_image_label = tk.Label(self, image=self.image2)
@@ -27,10 +27,10 @@ class Login(tk.Tk):
         self.password_entry = tk.Entry(self, font=("Tahoma", 28), show="*")
         self.password_entry.place(x=425, y=190, width=200, height=50)
 
-        self.login_button = Button(self, text="LOGIN", command=self.check_password)
+        self.login_button = HoverButton(self, text="LOGIN",bg='#FFFFFF', command=self.check_password)
         self.login_button.place(x=425, y=350, width=150, height=50)
 
-        self.cancel_button = Button(self, text="Cancel", command=self.open_starter)
+        self.cancel_button = HoverButton(self, text="Cancel",bg='#FFFFFF', command=self.open_starter)
         self.cancel_button.place(x=250, y=350, width=150, height=50)
 
     def login(self):
