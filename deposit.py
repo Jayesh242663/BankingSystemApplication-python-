@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter.ttk import Button
 from tkinter import scrolledtext
+from Buttons import HoverButton
+
 
 
 class Deposit(tk.Tk):
@@ -10,6 +12,8 @@ class Deposit(tk.Tk):
         self.accno = accno
         self.title("Deposit")
         self.geometry("800x600")
+        self.configure(bg='#F0F0F0')
+
 
         self.create_widgets()
 
@@ -27,10 +31,10 @@ class Deposit(tk.Tk):
         self.amount_entry = tk.Entry(self, font=("Tahoma", 14))
         self.amount_entry.place(x=350, y=450, width=120)
 
-        self.deposit_button = Button(self, text="DEPOSIT", command=self.deposit)
+        self.deposit_button = HoverButton(self, text="DEPOSIT",bg='#FFFFFF', command=self.deposit)
         self.deposit_button.place(x=500, y=480, width=200)
 
-        self.back_button = Button(self, text="BACK", command=self.back)
+        self.back_button = HoverButton(self, text="BACK",bg='#FFFFFF', command=self.back)
         self.back_button.place(x=150, y=480, width=170)
 
     def deposit(self):

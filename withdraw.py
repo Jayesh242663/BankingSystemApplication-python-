@@ -4,6 +4,8 @@ from tkinter.ttk import Button
 from tkinter import scrolledtext
 import mysql.connector
 from options import Options
+from Buttons import HoverButton
+
 
 class Withdraw(tk.Tk):
     def __init__(self, accno):
@@ -11,6 +13,8 @@ class Withdraw(tk.Tk):
         self.accno = accno
         self.title("Withdraw")
         self.geometry("800x600")
+        self.configure(bg='#F0F0F0')
+
 
         self.create_widgets()
 
@@ -28,10 +32,10 @@ class Withdraw(tk.Tk):
         self.amount_entry = tk.Entry(self, font=("Tahoma", 14))
         self.amount_entry.place(x=350, y=400, width=120)
 
-        self.withdraw_button = Button(self, text="WITHDRAW", command=self.withdraw)
+        self.withdraw_button = HoverButton(self, text="WITHDRAW",bg='#FFFFFF', command=self.withdraw)
         self.withdraw_button.place(x=420, y=450, width=220)
 
-        self.back_button = Button(self, text="BACK", command=self.back)
+        self.back_button = HoverButton(self, text="BACK",bg='#FFFFFF', command=self.back)
         self.back_button.place(x=150, y=450, width=170)
 
         self.fetch_and_display_details()

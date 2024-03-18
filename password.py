@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import mysql.connector
+from Buttons import HoverButton
+
 
 class Password(tk.Tk):
     def __init__(self):
@@ -8,7 +10,7 @@ class Password(tk.Tk):
 
         self.geometry("800x600")
         self.title("SET YOUR PASSWORD")
-        self.configure(bg="white")
+        self.configure(bg='#F0F0F0')
 
         self.image7 = tk.PhotoImage(file="./Images/Passwordimg.png")
         self.password_image = tk.Label(self, image=self.image7)
@@ -19,25 +21,25 @@ class Password(tk.Tk):
         self.title_label = tk.Label(self, text="SET YOUR PASSWORD", font=("tahoma", 20, "bold"), fg="white", bg="black")
         self.title_label.place(x=230, y=15, width=400, height=30)
 
-        self.pass1_label = tk.Label(self, text="PASSWORD:", font=self.font, fg="light gray", bg="white")
-        self.pass1_label.place(x=130, y=112, width=230, height=50)
+        self.pass1_label = tk.Label(self, text="PASSWORD:", font=self.font, fg="light gray", bg="black")
+        self.pass1_label.place(x=130, y=140, width=180, height=40)
 
-        self.pass2_label = tk.Label(self, text="CONFIRM PASSWORD:", font=self.font, fg="light gray", bg="white")
-        self.pass2_label.place(x=80, y=200, width=300, height=50)
+        self.pass2_label = tk.Label(self, text="CONFIRM PASSWORD:", font=self.font, fg="light gray", bg="black")
+        self.pass2_label.place(x=75, y=205, width=300, height=40)
 
-        self.pass1_entry = tk.Entry(self, font=("tahoma", 28), fg="white", bg="black")
+        self.pass1_entry = tk.Entry(self, font=("tahoma", 28), fg="black", bg="white")
         self.pass1_entry.place(x=380, y=140, width=200, height=50)
 
-        self.pass2_entry = tk.Entry(self, font=("tahoma", 28), fg="white", bg="black")
+        self.pass2_entry = tk.Entry(self, font=("tahoma", 28), fg="black", bg="white")
         self.pass2_entry.place(x=380, y=200, width=200, height=50)
 
-        self.login_button = tk.Button(self, text="LOGIN", font=("tahoma", 25, "bold"), fg="light gray", bg="black", command=self.open_login)
-        self.login_button.place(x=360, y=480, width=150, height=50)
+        self.login_button = HoverButton(self, text="LOGIN", font=("tahoma", 25, "bold"), fg="light gray", bg='black',  command=self.open_login)
+        self.login_button.place(x=310, y=400, width=150, height=50)
 
-        self.create_button = tk.Button(self, text="CREATE", font=("tahoma", 25, "bold"), fg="light gray", bg="black", command=self.create_password)
+        self.create_button = HoverButton(self, text="CREATE", font=("tahoma", 25, "bold"), fg="light gray", bg='black', command=self.create_password)
         self.create_button.place(x=400, y=290, width=150, height=50)
 
-        self.back_button = tk.Button(self, text="BACK", font=("tahoma", 25, "bold"), fg="#D2042D", bg="black", command=self.open_add_details)
+        self.back_button = HoverButton(self, text="BACK", font=("tahoma", 25, "bold"), fg="light gray", bg='black',  command=self.open_add_details)
         self.back_button.place(x=200, y=290, width=150, height=50)
 
     def create_password(self):
