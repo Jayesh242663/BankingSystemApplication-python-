@@ -1,41 +1,40 @@
-import tkinter as tk
-from tkinter.ttk import Button
+import tkinter
+
+import customtkinter
+from customtkinter import *
 from tkinter import messagebox
 import mysql.connector
-import ttkthemes
-from ttkthemes import ThemedTk
-class Login(tk.Tk):
+colors =["#070F2B","#1B1A55","#535C91"]
+class Login(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+        super().__init__()
         self.title("Login")
-        self.geometry("800x600")
-        self.configure(bg="white")
+        self.config(bg=colors[0])
+        self.geometry("600x440")
 
-        self.image2 = tk.PhotoImage(file="./Images/Bankimg1.png")
-        self.bank_image_label = tk.Label(self, image=self.image2)
-        self.bank_image_label.place(x=0, y=0)
+        self.frame = CTkFrame(master=self, width=320, height=360, fg_color=colors[1], corner_radius=16,
+                              border_color="#3E065F", bg_color=colors[0])
+        self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-        self.username_label = tk.Label(self, text="ACCOUNT NO:", font=("Tahoma", 28, "bold"), fg="white")
-        self.username_label.place(x=140, y=120)
+        self.label = CTkLabel(master=self.frame, text="Log into your Account", font=('Century Gothic', 20, "bold"),
+                              text_color="#9290C3")
+        self.label.place(x=50, y=45)
 
-        self.username_entry = tk.Entry(self, font=("Tahoma", 28))
-        self.username_entry.place(x=425, y=120, width=200, height=50)
+        self.account_no_label = CTkEntry(master=self.frame, width=220, placeholder_text="Account Number",
+                                         fg_color="#424769")
+        self.account_no_label.place(x=50, y=110)
 
-        self.password_label = tk.Label(self, text="PASSWORD:", font=("Tahoma", 28, "bold"), fg="white")
-        self.password_label.place(x=140, y=190)
+        self.password_label = CTkEntry(master=self.frame, width=220, placeholder_text="Password", fg_color="#424769")
+        self.password_label.place(x=50, y=165)
 
-        self.password_entry = tk.Entry(self, font=("Tahoma", 28), show="*")
-        self.password_entry.place(x=425, y=190, width=200, height=50)
-
-        self.login_button = Button(self, text="LOGIN", command=self.check_password)
-        self.login_button.place(x=425, y=350, width=150, height=50)
-
-        self.cancel_button = Button(self, text="Cancel", command=self.open_starter)
-        self.cancel_button.place(x=250, y=350, width=150, height=50)
+        self.login_button = CTkButton(master=self.frame, width=220, text='Login', corner_radius=6, bg_color=colors[1],
+                                      fg_color=colors[2],command=self.check_password)
+        self.login_button.place(x=50, y=240)
 
     def login(self):
-        accno = self.username_entry.get()
-        password = self.password_entry.get()
+        accno = self.account_no_label.get()
+        password = self.password_label.get()
 
         try:
             db = mysql.connector.connect(
@@ -58,39 +57,41 @@ class Login(tk.Tk):
             messagebox.showerror("Error", f"Error: {e}")
 
     def check_password(self):
-        username = self.username_entry.get()
-        password = self.password_entry.get()
+        username = self.account_no_label.get()
+        password = self.password_label.get()
 
-        try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="9321985498",
-                port="3306",
-                database="Bankingsys"
-            )
-            cursor = conn.cursor()
+        # try:
+        #     conn = mysql.connector.connect(
+        #         host="localhost",
+        #         user="root",
+        #         password="9321985498",
+        #         port="3306",
+        #         database="Bankingsys"
+        #     )
+        #     cursor = conn.cursor()
+        #
+        #     cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
+        #     user_record = cursor.fetchone()
+        #
+        #     if user_record:
+        #         db_password = user_record[0]
+        if username == "admin":
+            print("username correct")
 
-            cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
-            user_record = cursor.fetchone()
-
-            if user_record:
-                db_password = user_record[0]
-
-                if password == db_password:
-                    accno = user_record
-                    messagebox.showinfo("Success", "Username and password match. Logging in...")
-                    self.destroy()
-                    import options
-                    options.Options(accno)
-                else:
-                    messagebox.showerror("Error", "Incorrect password. Please try again.")
-            else:
-                messagebox.showerror("Error", "User does not exist. Please check your username.")
-
-            conn.close()
-        except mysql.connector.Error as e:
-            messagebox.showerror("Error", f"Error: {e}")
+        if password == "admin":
+            print("Password correct")
+            # accno = user_record
+            messagebox.showinfo("Success", "Username and password match. Logging in...")
+            self.destroy()
+            import options
+            # options.Options(accno)
+        else:
+            messagebox.showerror("Error", "Incorrect password. Please try again.")
+            # else:
+            # messagebox.showerror("Error", "User does not exist. Please check your username.")
+            # conn.close()
+            # except mysql.connector.Error as e:(
+            #     messagebox.showerror("Error", f"Error: {e}"))
 
     def open_starter(self):
         self.destroy()
