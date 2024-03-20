@@ -2,7 +2,7 @@
   "questions": [
     {
       "id": 1,
-      "question": "What is the your favourate colour "
+      "question": "What is the your favourate colour? "
 
     },
     {
@@ -11,7 +11,7 @@
     },
     {
       "id": 3,
-      "question": "What is the favourate number?"
+      "question": "What is the favourite number?"
     }
   ]
 }

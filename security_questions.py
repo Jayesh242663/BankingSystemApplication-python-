@@ -1,10 +1,6 @@
 import json
-import pymysql
 import customtkinter
 from customtkinter import *
-
-import change_password
-from change_password import Change_password
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -28,7 +24,7 @@ class Security_questions(customtkinter.CTk):
             print("Error: questions.json file not found.")
 
     def create_question_widgets(self):
-        self.user_answers = {}
+        self.answers = {}
         for i, question_data in enumerate(self.questions):
             question_label = CTkLabel(master=self, text=question_data["question"], font=(fonts, 12), wraplength=500)
             question_label.grid(row=i, column=0, padx=10, pady=10, sticky="w")
@@ -36,43 +32,17 @@ class Security_questions(customtkinter.CTk):
             answer_entry = CTkEntry(master=self, font=(fonts, 12))
             answer_entry.grid(row=i, column=1, padx=10, pady=10, sticky="w")
 
-            self.user_answers[question_data["id"]] = answer_entry
-
-        self.Accno_label = CTkLabel(master=self, text="Account number")
-        self.Accno_label.place(x=10, y=150)
-
-        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Enter Account number", fg_color="#424769")
-        self.Accno.place(x=230, y=150)
+            self.answers[question_data["id"]] = answer_entry
 
         submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
-        submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
+        submit_button.grid(row=len(self.questions), columnspan=2, pady=20)
 
     def submit_answers(self):
-        connection = pymysql.connect(host='localhost',
-                                     user='root',
-                                     password='9321985498',
-                                     database='Bankingsys')
+        user_answers = {}
+        for question_id, answer_entry in self.answers.items():
+            user_answers[question_id] = answer_entry.get()
 
-        try:
-            with connection.cursor() as cursor:
-                sql = "SELECT user_answer FROM answer WHERE id = %s"
-                cursor.execute(sql, (self.Accno.get(),))
-                db_answers = cursor.fetchall()
-
-                if len(self.user_answers) != len(db_answers):
-                    print("Incorrect number of answers provided.")
-                else:
-                    for db_answer, user_entry in zip(db_answers, self.user_answers.values()):
-                        if db_answer['user_answer'] != user_entry.get():
-                            print("Incorrect answer.")
-                            break
-                    else:
-                        print("All answers are correct.")
-                        change_password_page = Change_password()
-                        change_password_page.mainloop()
-
-        finally:
-            connection.close()
+        print("User Answers:", user_answers)
 
 if __name__ == '__main__':
     App = Security_questions()
