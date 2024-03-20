@@ -96,11 +96,14 @@
 # if __name__ == "__main__":
 #     app = AddDetails()
 #     app.mainloop()
+
 import datetime
 import tkinter
 import customtkinter
+import mysql
 from customtkinter import *
 from tkinter import messagebox
+import connection
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -171,11 +174,11 @@ class AddDetails(customtkinter.CTk):
         self.year.place(x=300, y=130)
 
 
-        radio_var = tkinter.IntVar()
-        self.male = CTkRadioButton(master=self.frame, text="Male", value=1,variable=radio_var,font=(fonts,17))
+        self.radio_var = tkinter.IntVar(value=0)
+        self.male = CTkRadioButton(master=self.frame, text="Male", value=1,variable=self.radio_var,font=(fonts,17))
         self.male.place(x=500, y=135)
 
-        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=radio_var, font=(fonts,17))
+        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=self.radio_var, font=(fonts,17))
         self.female.place(x=580, y=135)
 
         self.account_type = CTkComboBox(master=self.frame, values=["Current Account","Personal Account","Saving Account"])
@@ -184,8 +187,44 @@ class AddDetails(customtkinter.CTk):
         self.number_entry = CTkEntry(master=self.frame)
         self.number_entry.place(x=170, y=200)
 
-        self.submit_button = CTkButton(master=self.frame, text="Submit")
+        self.submit_button = CTkButton(master=self.frame, text="Submit", command=self.create_account)
         self.submit_button.place(x=300, y=320)
+
+    def create_account(self):
+        name = self.name_entry.get()
+        email = self.email_entry.get()
+        day = self.date.get()
+        month = self.month.get()
+        year = self.year.get()
+        dob = f"{year}-{month}-{day}"
+        number = self.number_entry.get()
+        address = self.address_entry.get()
+        gender = self.radio_var.get()
+        account_type = self.account_type.get()
+
+        try:
+            db = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="",
+                port="3306",
+                database="Bankingsys"
+            )
+            cursor = db.cursor()
+            sql = "INSERT INTO acc_details (name, dob, gender, address, acctype, balance) VALUES (%s, %s, %s, %s, %s, %s)"
+
+            # Specify the columns into which you want to insert the data
+            data = (name, dob, gender, address, account_type,number)
+
+            cursor.execute(sql, data)
+            db.commit()
+            db.close()
+            messagebox.showinfo("Success", "Account created successfully.")
+            self.destroy()
+
+        except mysql.connector.Error as err:
+            messagebox.showerror("Error", f"Error: {err}")
+
 
 
 if __name__ == '__main__':
