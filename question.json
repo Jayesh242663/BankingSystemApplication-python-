@@ -1,0 +1,17 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the your favourate colour "
+
+    },
+    {
+      "id": 2,
+      "question": "What's your favourate destination?"
+    },
+    {
+      "id": 3,
+      "question": "What is the favourate number?"
+    }
+  ]
+}

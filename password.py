@@ -1,50 +1,54 @@
-import tkinter as tk
+import tkinter
 from tkinter import messagebox
 import mysql.connector
-from Buttons import HoverButton
+import customtkinter
+from customtkinter import *
+from adddetails import AddDetails
+from login import Login
 
 
-class Password(tk.Tk):
+colors =["#070F2B","#1B1A55","#535C91"]
+fonts = 'Century Gothic'
+
+
+class Password(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+        self.title("Set Password")
+        self.config(bg=colors[0])
+        self.geometry("600x440")
 
-        self.geometry("800x600")
-        self.title("SET YOUR PASSWORD")
-        self.configure(bg='#F0F0F0')
+        self.frame = CTkFrame(master=self, width=320, height=360, fg_color=colors[1], corner_radius=16,
+                              border_color="#3E065F", bg_color=colors[0])
+        self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-        self.image7 = tk.PhotoImage(file="./Images/Passwordimg.png")
-        self.password_image = tk.Label(self, image=self.image7)
-        self.password_image.place(x=0, y=0)
+        self.label_1 = CTkLabel(master=self.frame, text="Set Your Password", font=(fonts, 20, "bold"),
+                              text_color="#9290C3")
+        self.label_1.place(x=50, y=45)
 
-        self.font = ("Tahoma", 22)
+        self.password_entry = CTkEntry(master=self.frame, width=220, placeholder_text="PASSWORD",
+                                         fg_color="#424769")
+        self.password_entry.place(x=50, y=110)
 
-        self.title_label = tk.Label(self, text="SET YOUR PASSWORD", font=("tahoma", 20, "bold"), fg="white", bg="black")
-        self.title_label.place(x=230, y=15, width=400, height=30)
+        self.cnfpassword_entry = CTkEntry(master=self.frame, width=220, placeholder_text="CONFIRM PASSWORD", fg_color="#424769")
+        self.cnfpassword_entry.place(x=50, y=175)
 
-        self.pass1_label = tk.Label(self, text="PASSWORD:", font=self.font, fg="light gray", bg="black")
-        self.pass1_label.place(x=130, y=140, width=180, height=40)
 
-        self.pass2_label = tk.Label(self, text="CONFIRM PASSWORD:", font=self.font, fg="light gray", bg="black")
-        self.pass2_label.place(x=75, y=205, width=300, height=40)
+        self.next = CTkButton(master=self.frame, width=120, text='Next', corner_radius=6, bg_color=colors[1],
+                                      fg_color=colors[2], command=self.open_login)
+        self.next.place(x=165, y=300)
 
-        self.pass1_entry = tk.Entry(self, font=("tahoma", 28), fg="black", bg="white")
-        self.pass1_entry.place(x=380, y=140, width=200, height=50)
+        self.back = CTkButton(master=self.frame, width=120, text='Back', corner_radius=6, bg_color=colors[1],
+                              fg_color=colors[2], command=self.open_add_details)
+        self.back.place(x=30, y=300)
 
-        self.pass2_entry = tk.Entry(self, font=("tahoma", 28), fg="black", bg="white")
-        self.pass2_entry.place(x=380, y=200, width=200, height=50)
-
-        self.login_button = HoverButton(self, text="LOGIN", font=("tahoma", 25, "bold"), fg="light gray", bg='black',  command=self.open_login)
-        self.login_button.place(x=310, y=400, width=150, height=50)
-
-        self.create_button = HoverButton(self, text="CREATE", font=("tahoma", 25, "bold"), fg="light gray", bg='black', command=self.create_password)
-        self.create_button.place(x=400, y=290, width=150, height=50)
-
-        self.back_button = HoverButton(self, text="BACK", font=("tahoma", 25, "bold"), fg="light gray", bg='black',  command=self.open_add_details)
-        self.back_button.place(x=200, y=290, width=150, height=50)
+        self.create_button = CTkButton(master=self.frame, width=220, text="CREATE", corner_radius=6, bg_color=colors[1],
+                                      fg_color=colors[2],command=self.create_password)
+        self.create_button.place(x=50, y=250)
 
     def create_password(self):
-        password1 = self.pass1_entry.get()
-        password2 = self.pass2_entry.get()
+        password1 = self.password_entry.get()
+        password2 = self.cnfpassword_entry.get()
 
         if password1 != password2:
             messagebox.showerror("Error", "Passwords do not match.")
@@ -66,36 +70,16 @@ class Password(tk.Tk):
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error: {err}")
 
-    def display_passwords(self):
-        password1 = self.pass1_entry.get()
-        try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="9321985498",
-                database="Bankingsys"
-            )
-            cursor = conn.cursor()
-            cursor.execute("SELECT accno, password FROM login WHERE password = %s", (password1,))
-            rows = cursor.fetchall()
-            conn.close()
-
-            if rows:
-                messagebox.showinfo("Account Numbers and Passwords", "\n".join([f"Account No: {row[0]}, Password: {row[1]}" for row in rows]))
-            else:
-                messagebox.showinfo("No Matches", "No accounts found with this password.")
-        except mysql.connector.Error as err:
-            messagebox.showerror("Error", f"Error: {err}")
-
     def open_add_details(self):
         self.destroy()
-        import adddetails
-        adddetails.AddDetails()
+        adddetails_page = AddDetails()
+        adddetails_page.mainloop()
 
     def open_login(self):
         self.destroy()
-        import login
-        login.Login()
+        login_page = Login()
+        login_page.mainloop()
 
 if __name__ == "__main__":
-    Password().mainloop()
+    app = Password()
+    app.mainloop()
