@@ -112,6 +112,8 @@ class AddDetails(customtkinter.CTk):
         self.config(bg=colors[0])
         self.geometry("1050x750")
 
+
+        #name,number, email, addhar_number,
         self.frame = CTkFrame(master=self, width=800, height=600 , fg_color=colors[2],corner_radius=16,border_color="#3E065F",bg_color=colors[0])
         self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
