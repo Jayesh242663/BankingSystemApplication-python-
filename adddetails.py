@@ -100,7 +100,7 @@ import datetime
 import tkinter
 import customtkinter
 from customtkinter import *
-from tkinter import messagebox
+from security_questions_2 import Security_questions
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -139,7 +139,7 @@ class AddDetails(customtkinter.CTk):
         self.email_label.place(x=400, y=70)
 
         self.account_type_label = CTkLabel(master=self.frame, text="Account Type:", font=(fonts, 20))
-        self.account_type_label.place(x=210, y=250)
+        self.account_type_label.place(x=10, y=250)
 
         self.address_label = CTkLabel(master=self.frame, text="Address:", font=(fonts, 20))
         self.address_label.place(x=400, y=200)
@@ -179,13 +179,20 @@ class AddDetails(customtkinter.CTk):
         self.female.place(x=580, y=135)
 
         self.account_type = CTkComboBox(master=self.frame, values=["Current Account","Personal Account","Saving Account"])
-        self.account_type.place(x=370, y=250)
+        self.account_type.place(x=160, y=250)
 
         self.number_entry = CTkEntry(master=self.frame)
         self.number_entry.place(x=170, y=200)
 
         self.submit_button = CTkButton(master=self.frame, text="Submit")
         self.submit_button.place(x=300, y=320)
+
+        self.sq_label = CTkLabel(master=self.frame, text="Security Questions:", font=(fonts, 20))
+        self.sq_label.place(x=400, y=250)
+
+        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",)
+        self.sq_button.place(x=600, y=255)
+
 
 
 if __name__ == '__main__':

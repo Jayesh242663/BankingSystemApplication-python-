@@ -4,7 +4,6 @@ from tkinter.ttk import Button
 from tkinter import scrolledtext
 import mysql.connector
 from options import Options
-from Buttons import HoverButton
 
 
 class Withdraw(tk.Tk):
@@ -19,9 +18,7 @@ class Withdraw(tk.Tk):
         self.create_widgets()
 
     def create_widgets(self):
-        self.image4 = tk.PhotoImage(file="./Images/Bankimg2.png")
-        self.banklabel_4 = tk.Label(self, image=self.image4)
-        self.banklabel_4.place(x=0, y=0)
+
 
         self.sp1 = scrolledtext.ScrolledText(self, width=50, height=3, wrap=tk.WORD, font=("Tahoma", 14))
         self.sp1.place(x=150, y=200)
