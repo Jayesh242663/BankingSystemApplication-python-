@@ -4,6 +4,8 @@ import customtkinter
 from customtkinter import *
 from tkinter import messagebox
 from adddetails import AddDetails
+from security_questions import Security_questions
+
 
 colors =["#070F2B","#1B1A55","#535C91"]
 fonts = 'Century Gothic'
@@ -50,7 +52,7 @@ class Login(customtkinter.CTk):
 
         self.label_wrong_accountnumber = CTkLabel(master=self.frame, text="Incorrect Account number", font=(fonts,16),text_color="red")
 
-        self.forget_button = CTkButton(master=self.frame,text="Forgot password",font=(fonts,12),text_color="white",fg_color=colors[1],hover=(colors[1]))
+        self.forget_button = CTkButton(master=self.frame,text="Forgot password",font=(fonts,12),text_color="white",fg_color=colors[1],hover=(colors[1]),command=self.open_sq_page)
         self.forget_button.place(x=150,y=202)
     def login(self):
         accno = self.account_no_label.get()
@@ -120,7 +122,10 @@ class Login(customtkinter.CTk):
         signup_page = AddDetails()
         signup_page.mainloop()
 
-
+    def open_sq_page(self):
+        self.destroy()
+        sq_page = Security_questions()
+        sq_page.mainloop()
 
 
 

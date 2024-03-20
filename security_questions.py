@@ -1,6 +1,4 @@
 import json
-import tkinter
-
 import customtkinter
 from customtkinter import *
 
@@ -12,13 +10,8 @@ class Security_questions(customtkinter.CTk):
         super().__init__()
         self.title("SECURITY QUESTIONS")
         self.config(bg=colors[0])
-        self.geometry("700x500")
-        self.frame = CTkFrame(master=self,height=650, width=650,corner_radius=16,fg_color=colors[1],bg_color=colors[0])
-        self.frame.place(relx=0.5, rely=0.5, anchor= tkinter.CENTER)
-        self.label = CTkLabel(master=self, text="Security Questions",bg_color=colors[0],font=(fonts, 22))
-        self.label.place(x=260,y=10)
-        self.description_label = CTkLabel(master=self, text="In case you forget your Password.\nTo reset the password these questions are neccesary to fill",bg_color=colors[0],font=(fonts,18))
-        self.description_label.place(x=95,y=50)
+        self.geometry("600x400")
+
         self.load_questions()
 
     def load_questions(self):
@@ -33,15 +26,15 @@ class Security_questions(customtkinter.CTk):
     def create_question_widgets(self):
         self.answers = {}
         for i, question_data in enumerate(self.questions):
-            question_label = CTkLabel(master=self.frame, text=question_data["question"], font=(fonts, 18), wraplength=500)
+            question_label = CTkLabel(master=self, text=question_data["question"], font=(fonts, 12), wraplength=500)
             question_label.grid(row=i, column=0, padx=10, pady=10, sticky="w")
 
-            answer_entry = CTkEntry(master=self.frame, font=(fonts, 18))
+            answer_entry = CTkEntry(master=self, font=(fonts, 12))
             answer_entry.grid(row=i, column=1, padx=10, pady=10, sticky="w")
 
             self.answers[question_data["id"]] = answer_entry
 
-        submit_button = CTkButton(master=self.frame, text="Submit", font=(fonts, 18), command=self.submit_answers)
+        submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
         submit_button.grid(row=len(self.questions), columnspan=2, pady=20)
 
     def submit_answers(self):
