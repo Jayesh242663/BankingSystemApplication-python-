@@ -10,7 +10,7 @@ class Starter(tk.Tk):
         self.geometry("800x600")
         self.configure(bg='#F0F0F0')
 
-        self.image1 = tk.PhotoImage(file="./Images/Bankimg1.png")
+        self.image1 = tk.PhotoImage(file="Images/Banking_1.png")
         self.bank_image_label = tk.Label(self, image=self.image1)
         self.bank_image_label.place(x=0, y=0)
 
