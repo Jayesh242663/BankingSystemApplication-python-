@@ -96,41 +96,96 @@
 # if __name__ == "__main__":
 #     app = AddDetails()
 #     app.mainloop()
-
-
+import datetime
 import tkinter
 import customtkinter
 from customtkinter import *
 from tkinter import messagebox
-colors =["#070F2B","#1B1A55","#535C91"]
+
+colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
+
 
 class AddDetails(customtkinter.CTk):
     def __init__(self):
+        global date_list
         super().__init__()
         self.title("Add Details")
-        self.config(bg=colors[0])
-        self.geometry("1050x750")
+        self.config(bg=colors[0], )
+        self.geometry("1000x550")
 
-
-        #name,number, email, addhar_number,
-        self.frame = CTkFrame(master=self, width=800, height=600 , fg_color=colors[2],corner_radius=16,border_color="#3E065F",bg_color=colors[0])
+        # name,number, email, dateofbirth, gender ,accountype ,address
+        self.frame = CTkFrame(master=self, width=800, height=380, fg_color=colors[2], corner_radius=16,
+                              border_color="#3E065F", bg_color=colors[0])
         self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
-        self.label = CTkLabel(master=self.frame, text="Please fill the form to create an Account", font=(fonts, 22, "bold"), text_color=colors[1])
-        self.label.place(x=10, y=10)
+        self.label = CTkLabel(master=self.frame, text="Please fill the form to create an Account",
+                              font=(fonts, 22, "bold"), text_color=colors[1])
+        self.label.place(x=180, y=10)
 
-        self.name_label = CTkLabel(master=self.frame, text="Name:", font=(fonts,20))
-        self.name_label.place(x=10, y=50)
+        self.name_label = CTkLabel(master=self.frame, text="Name:", font=(fonts, 20))
+        self.name_label.place(x=10, y=70)
 
-        self.date_of_birth = CTkLabel(master=self.frame, text="Date Of Birth:", font=(fonts,20))
-        self.date_of_birth.place(x=10, y=90)
+        self.date_of_birth = CTkLabel(master=self.frame, text="Date Of Birth:", font=(fonts, 20))
+        self.date_of_birth.place(x=10, y=130)
 
         self.gender_label = CTkLabel(master=self.frame, text="Gender:", font=(fonts, 20))
-        self.gender_label.place(x=10, y=130)
+        self.gender_label.place(x=400, y=130)
 
         self.phone_number_label = CTkLabel(master=self.frame, text="Phone Number:", font=(fonts, 20))
-        self.phone_number_label.place(x=10, y=170)
+        self.phone_number_label.place(x=10, y=200)
+
+        self.email_label = CTkLabel(master=self.frame, text="Email:", font=(fonts, 20))
+        self.email_label.place(x=400, y=70)
+
+        self.account_type_label = CTkLabel(master=self.frame, text="Account Type:", font=(fonts, 20))
+        self.account_type_label.place(x=210, y=250)
+
+        self.address_label = CTkLabel(master=self.frame, text="Address:", font=(fonts, 20))
+        self.address_label.place(x=400, y=200)
+
+        self.name_entry = CTkEntry(master=self.frame, width=250)
+        self.name_entry.place(x=85, y=70)
+
+        self.email_entry = CTkEntry(master=self.frame, width=250)
+        self.email_entry.place(x=470, y=70)
+
+        self.address_entry = CTkEntry(master=self.frame, width=250)
+        self.address_entry.place(x=490, y=200)
+
+        date_list = [str(i) for i in range(1,32)]
+        self.date = CTkComboBox(master=self.frame, values=date_list,width=70)
+        self.date.set("Day")
+        self.date.place(x=150, y=130)
+
+        month_list = [str(i) for i in range(1, 13)]
+        self.month = CTkComboBox(master=self.frame, values=month_list,width=80)
+        self.month.set("Month")
+        self.month.place(x=220,y=130)
+
+
+        current_year = datetime.date.today().year
+        year_list = [str(i) for i in range(1950,current_year)]
+        self.year = CTkComboBox(master=self.frame, values=year_list,width=70)
+        self.year.set("Year")
+        self.year.place(x=300, y=130)
+
+
+        radio_var = tkinter.IntVar()
+        self.male = CTkRadioButton(master=self.frame, text="Male", value=1,variable=radio_var,font=(fonts,17))
+        self.male.place(x=500, y=135)
+
+        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=radio_var, font=(fonts,17))
+        self.female.place(x=580, y=135)
+
+        self.account_type = CTkComboBox(master=self.frame, values=["Current Account","Personal Account","Saving Account"])
+        self.account_type.place(x=370, y=250)
+
+        self.number_entry = CTkEntry(master=self.frame)
+        self.number_entry.place(x=170, y=200)
+
+        self.submit_button = CTkButton(master=self.frame, text="Submit")
+        self.submit_button.place(x=300, y=320)
 
 
 if __name__ == '__main__':
