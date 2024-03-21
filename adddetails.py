@@ -100,7 +100,9 @@ import datetime
 import tkinter
 import customtkinter
 from customtkinter import *
-from security_questions_2 import Security_questions
+import mysql.connector
+# from security_questions_2 import Security_questions
+# from password import Password
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -192,6 +194,7 @@ class AddDetails(customtkinter.CTk):
 
         self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",)
         self.sq_button.place(x=600, y=255)
+
 
 
 

@@ -1,16 +1,16 @@
 import json
-import pymysql
+import mysql.connector
 import customtkinter
 from customtkinter import *
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
-class Security_questions(customtkinter.CTk):
+class Security_questions_2(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self.title("SECURITY QUESTIONS")
-        self.config(bg=colors[0])
+        self.config(bg="Black")
         self.geometry("600x400")
 
         self.load_questions()
@@ -35,47 +35,43 @@ class Security_questions(customtkinter.CTk):
 
             self.answers[question_data["id"]] = answer_entry
 
+        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Account number", fg_color="#424769")
+        self.Accno.place(x=230, y=150)
+
         self.Accno_label = CTkLabel(master=self, text="Account number")
         self.Accno_label.place(x=10, y=150)
 
-        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Enter Account number", fg_color="#424769")
-        self.Accno.place(x=230, y=150)
-
-        submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
-        submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
+        self.submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
+        self.submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
 
     def submit_answers(self):
+        id = self.Accno.get()
         user_answers = {}
-        user_account_number = self.Accno.get()
+        for question_id, answer_entry in self.answers.items():
+            user_answers[question_id] = answer_entry.get()
 
-        connection = pymysql.connect(host='localhost',
-                                     user='root',
-                                     password='9321985498',
-                                     database='Bankingsys')
+        print("Account Number:", id)
+        print("User Answers:", user_answers)
+
+        user_answer = json.dumps(user_answers)
 
         try:
-            with connection.cursor() as cursor:
-                sql = "SELECT * FROM answer WHERE id = %s"
-                cursor.execute(sql, (user_account_number,))
-                db_answers = cursor.fetchall()
+            conn = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="9321985498",
+                database="Bankingsys"
+            )
+            cursor = conn.cursor()
+            # Execute SQL query to insert or update user_answers
+            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)",(id, user_answer))
 
-                if len(db_answers) == 0:
-                    print("No answers found for the provided account number.")
-                    return
-
-                for db_answer in db_answers:
-                    db_question_id = int(db_answer["id"])
-                    db_answer_text = db_answer["answer"]
-                    user_answer = user_answers.get(db_question_id)
-                    if user_answer != db_answer_text:
-                        print("Incorrect answer for question ID:", db_question_id)
-                        break
-                else:
-                    print("All answers are correct.")
-
-        finally:
-            connection.close()
+            conn.commit()
+            conn.close()
+            print("User answers saved in the database successfully.")
+        except mysql.connector.Error as err:
+            print("Error:", err)
 
 if __name__ == '__main__':
-    App = Security_questions()
+    App = Security_questions_2()
     App.mainloop()

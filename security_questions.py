@@ -1,6 +1,8 @@
 import json
 import customtkinter
 from customtkinter import *
+import mysql.connector
+from change_password import Change_password
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -34,15 +36,54 @@ class Security_questions(customtkinter.CTk):
 
             self.answers[question_data["id"]] = answer_entry
 
+        self.Accno_label = CTkLabel(master=self, text="Account number")
+        self.Accno_label.place(x=10, y=150)
+
+        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Enter Account number", fg_color="#424769")
+        self.Accno.place(x=230, y=150)
+
         submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
-        submit_button.grid(row=len(self.questions), columnspan=2, pady=20)
+        submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
 
     def submit_answers(self):
+        account_number = self.Accno.get()
         user_answers = {}
         for question_id, answer_entry in self.answers.items():
             user_answers[question_id] = answer_entry.get()
 
         print("User Answers:", user_answers)
+
+        try:
+            conn = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="9321985498",
+                database="Bankingsys"
+            )
+            cursor = conn.cursor()
+
+            # Query to fetch user answers for the provided account number
+            cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
+            result = cursor.fetchone()
+            print(result[0])
+
+            if result:
+                user_answers = json.loads(result[0])
+                if user_answers == user_answers:
+                    print("User answers match the stored answers.")
+                    change_password_page = Change_password()
+                    change_password_page.mainloop()
+
+                else:
+                    print("User answers do not match the stored answers.")
+            else:
+                print("No user answers found for the provided account number.")
+
+            conn.close()
+
+        except mysql.connector.Error as err:
+            print("Error:", err)
+
 
 if __name__ == '__main__':
     App = Security_questions()
