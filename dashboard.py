@@ -25,28 +25,28 @@ class Dashboard(customtkinter.CTk):
         self.sidebar_frame.pack_propagate(0)
         self.sidebar_frame.pack(fill="y", anchor="w", side="left")
 
-        self.person_img_data = Image.open("person_icon.png")
+        self.person_img_data = Image.open("Images/person_icon.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
         customtkinter.CTkButton(master=self.sidebar_frame, image=self.person_img,text_color=colors[2], text=f"Account\n{email.upper()}", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="NW").pack(anchor="center", ipady=5, pady=(10, 0))
 
-        self.analytics_img_data = Image.open("analytics_icon.png")
+        self.analytics_img_data = Image.open("Images/analytics_icon.png")
         self.analytics_img = CTkImage(dark_image=self.analytics_img_data, light_image=self.analytics_img_data)
         customtkinter.CTkButton(master=self.sidebar_frame, image=self.analytics_img,text_color=colors[2], text="Transactions", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",command=self.transaction).pack(anchor="center", ipady=5, pady=(60, 0))
 
-        self.package_img_data = Image.open("package_icon.png")
+        self.package_img_data = Image.open("Images/package_icon.png")
         self.package_img = CTkImage(dark_image=self.package_img_data, light_image=self.package_img_data)
 
         CTkButton(master=self.sidebar_frame, image=self.package_img, text="Transaction\nHistory",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
 
-        self.list_img_data = Image.open("list_icon.png")
+        self.list_img_data = Image.open("Images/list_icon.png")
         self.list_img = CTkImage(dark_image=self.list_img_data, light_image=self.list_img_data)
         CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
 
-        self.settings_img_data = Image.open("settings_icon.png")
+        self.settings_img_data = Image.open("Images/settings_icon.png")
         self.settings_img = CTkImage(dark_image=self.settings_img_data, light_image=self.settings_img_data)
         CTkButton(master=self.sidebar_frame, image=self.settings_img, text="Settings",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
 
-        self.person_img_data = Image.open("logout_1.png")
+        self.person_img_data = Image.open("Images/logout_1.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
         CTkButton(master=self.sidebar_frame, image=self.person_img,text_color="#B53939", text="logout", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="S").pack(anchor="center", ipady=15, pady=(200, 0))
 
@@ -66,7 +66,7 @@ class Dashboard(customtkinter.CTk):
         self.account_metric.grid_propagate(0)
         self.account_metric.pack(side="left")
 
-        self.logitics_img_data = Image.open("logistics_icon.png")
+        self.logitics_img_data = Image.open("Images/logistics_icon.png")
         self.logistics_img = CTkImage(light_image=self.logitics_img_data, dark_image=self.logitics_img_data, size=(43, 43))
 
         CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
@@ -78,7 +78,7 @@ class Dashboard(customtkinter.CTk):
         self.balance_metric.grid_propagate(0)
         self.balance_metric.pack(side="left",expand=True, anchor="center")
 
-        self.shipping_img_data = Image.open("shipping_icon.png")
+        self.shipping_img_data = Image.open("Images/shipping_icon.png")
         self.shipping_img = CTkImage(light_image=self.shipping_img_data, dark_image=self.shipping_img_data, size=(43, 43))
 
         CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
@@ -122,7 +122,9 @@ class Dashboard(customtkinter.CTk):
 
         self.password_of_account = CTkInputDialog(
             text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
-            title="Confirm the transaction")
+            title="Confirm the transaction",
+            fg_color=colors[1],
+            button_fg_color=colors[0])
 
 
     # table_data = [
