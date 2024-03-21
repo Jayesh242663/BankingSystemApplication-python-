@@ -96,13 +96,15 @@
 # if __name__ == "__main__":
 #     app = AddDetails()
 #     app.mainloop()
-import datetime
+
+
 import tkinter
+from datetime import datetime
+
 import customtkinter
+from mysql import connector
 from customtkinter import *
-import mysql.connector
-# from security_questions_2 import Security_questions
-# from password import Password
+from tkinter import messagebox
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -155,47 +157,85 @@ class AddDetails(customtkinter.CTk):
         self.address_entry = CTkEntry(master=self.frame, width=250)
         self.address_entry.place(x=490, y=200)
 
-        date_list = [str(i) for i in range(1,32)]
-        self.date = CTkComboBox(master=self.frame, values=date_list,width=70)
+        date_list = [str(i) for i in range(1, 32)]
+        self.date = CTkComboBox(master=self.frame, values=date_list, width=70)
         self.date.set("Day")
         self.date.place(x=150, y=130)
 
         month_list = [str(i) for i in range(1, 13)]
-        self.month = CTkComboBox(master=self.frame, values=month_list,width=80)
+        self.month = CTkComboBox(master=self.frame, values=month_list, width=80)
         self.month.set("Month")
-        self.month.place(x=220,y=130)
+        self.month.place(x=220, y=130)
 
-
-        current_year = datetime.date.today().year
-        year_list = [str(i) for i in range(1950,current_year)]
-        self.year = CTkComboBox(master=self.frame, values=year_list,width=70)
+        current_year = datetime.today().year
+        year_list = [str(i) for i in range(1950, current_year)]
+        self.year = CTkComboBox(master=self.frame, values=year_list, width=70)
         self.year.set("Year")
         self.year.place(x=300, y=130)
 
-
-        radio_var = tkinter.IntVar()
-        self.male = CTkRadioButton(master=self.frame, text="Male", value=1,variable=radio_var,font=(fonts,17))
+        self.radio_var = tkinter.IntVar(value=0)
+        self.male = CTkRadioButton(master=self.frame, text="Male", value=1, variable=self.radio_var, font=(fonts, 17))
         self.male.place(x=500, y=135)
 
-        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=radio_var, font=(fonts,17))
+        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=self.radio_var, font=(fonts, 17))
         self.female.place(x=580, y=135)
 
-        self.account_type = CTkComboBox(master=self.frame, values=["Current Account","Personal Account","Saving Account"])
+        self.account_type = CTkComboBox(master=self.frame,
+                                        values=["Current Account", "Personal Account", "Saving Account"])
         self.account_type.place(x=160, y=250)
 
         self.number_entry = CTkEntry(master=self.frame)
         self.number_entry.place(x=170, y=200)
 
-        self.submit_button = CTkButton(master=self.frame, text="Submit")
+        self.submit_button = CTkButton(master=self.frame, text="Submit", command=self.create_account)
         self.submit_button.place(x=300, y=320)
 
         self.sq_label = CTkLabel(master=self.frame, text="Security Questions:", font=(fonts, 20))
         self.sq_label.place(x=400, y=250)
 
-        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",)
+        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS", )
         self.sq_button.place(x=600, y=255)
 
+    def create_account(self):
+        name = self.name_entry.get()
+        email = self.email_entry.get()
+        day = self.date.get()
+        month = self.month.get()
+        year = self.year.get()
+        dob = f"{year}-{month}-{day}"
+        number = self.number_entry.get()
+        address = self.address_entry.get()
+        gender = self.radio_var.get()
+        if gender == 1:
+            gender = "male"
+        elif gender == 2:
+            gender = "female"
+        else:
+            print("enter the proper gender")
+        account_type = self.account_type.get()
 
+        try:
+            db = connector.connect(
+                host="localhost",
+                user="root",
+                password="529374Channe@",
+                port="3306",
+                database="Bankingsys"
+            )
+            cursor = db.cursor()
+            sql = "INSERT INTO acc_details (name, dob, gender, address, acctype, balance,email) VALUES (%s, %s, %s, %s, %s, %s,%s)"
+
+            # Specify the columns into which you want to insert the data
+            data = (name, dob, gender, address, account_type, number, email)
+
+            cursor.execute(sql, data)
+            db.commit()
+            db.close()
+            messagebox.showinfo("Success", "Account created successfully.")
+            self.destroy()
+
+        except connector.Error as err:
+            messagebox.showerror("Error", f"Error: {err}")
 
 
 if __name__ == '__main__':
