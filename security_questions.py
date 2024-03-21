@@ -62,7 +62,6 @@ class Security_questions(customtkinter.CTk):
             )
             cursor = conn.cursor()
 
-            # Query to fetch user answers for the provided account number
             cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
             result = cursor.fetchone()
             print(result[0])

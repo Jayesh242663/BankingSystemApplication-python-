@@ -63,7 +63,6 @@ class Security_questions_2(customtkinter.CTk):
                 database="Bankingsys"
             )
             cursor = conn.cursor()
-            # Execute SQL query to insert or update user_answers
             cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)",(id, user_answer))
 
             conn.commit()
