@@ -4,7 +4,7 @@ import customtkinter
 from customtkinter import *
 from tkinter import messagebox
 from adddetails import AddDetails
-from security_questions import Security_questions
+from check_seq_question import Security_questions
 
 
 colors =["#070F2B","#1B1A55","#535C91"]

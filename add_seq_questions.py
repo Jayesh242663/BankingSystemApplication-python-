@@ -1,17 +1,18 @@
 import json
+import mysql.connector
 import customtkinter
 from customtkinter import *
-import mysql.connector
-from change_password import Change_password
+
+import connection
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
-class Security_questions(customtkinter.CTk):
+class Add_security_question(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self.title("SECURITY QUESTIONS")
-        self.config(bg=colors[0])
+        self.config(bg="Black")
         self.geometry("600x400")
 
         self.load_questions()
@@ -36,54 +37,39 @@ class Security_questions(customtkinter.CTk):
 
             self.answers[question_data["id"]] = answer_entry
 
+        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Account number", fg_color="#424769")
+        self.Accno.place(x=230, y=150)
+
         self.Accno_label = CTkLabel(master=self, text="Account number")
         self.Accno_label.place(x=10, y=150)
 
-        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Enter Account number", fg_color="#424769")
-        self.Accno.place(x=230, y=150)
-
-        submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
-        submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
+        self.submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
+        self.submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
 
     def submit_answers(self):
-        account_number = self.Accno.get()
+        id = self.Accno.get()
         user_answers = {}
         for question_id, answer_entry in self.answers.items():
             user_answers[question_id] = answer_entry.get()
 
+        print("Account Number:", id)
         print("User Answers:", user_answers)
 
+        user_answer = json.dumps(user_answers)
+
         try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="9321985498",
-                database="Bankingsys"
-            )
-            cursor = conn.cursor()
+            db = connection.Connection().get_connection()
 
-            cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
-            result = cursor.fetchone()
-            print(result[0])
+            cursor = db.cursor()
+            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)",(id, user_answer))
 
-            if result:
-                user_answers = json.loads(result[0])
-                if user_answers == user_answers:
-                    print("User answers match the stored answers.")
-                    change_password_page = Change_password()
-                    change_password_page.mainloop()
-
-                else:
-                    print("User answers do not match the stored answers.")
-            else:
-                print("No user answers found for the provided account number.")
-
-            conn.close()
-
+            db.commit()
+            db.close()
+            print("User answers saved in the database successfully.")
+            self.destroy()
         except mysql.connector.Error as err:
             print("Error:", err)
 
-
 if __name__ == '__main__':
-    App = Security_questions()
+    App = Add_security_question()
     App.mainloop()
