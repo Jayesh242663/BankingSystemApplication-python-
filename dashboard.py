@@ -1,9 +1,11 @@
 import tkinter
-
 import customtkinter
+import mysql.connector
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+import connection
+
 
 email = "Jayesh Channe"
 
@@ -18,6 +20,18 @@ class Dashboard(customtkinter.CTk):
         self.geometry("856x645")
         self.resizable(0,0)
 
+        try:
+            self.db = connection.Connection().get_connection()
+            self.cursor = self.db.cursor()
+            self.cursor.execute("select * from acc_details where accno = %s",(1,))
+            self.result = self.cursor.fetchall()
+            self.result = self.result[0]
+            for i in self.result:
+                print(i)
+            self.cursor.close()
+            self.db.close()
+        except mysql.connector.Error as e:
+            print(e)
 
         # self.set_appearance_mode("dark-blue")
 
@@ -27,7 +41,7 @@ class Dashboard(customtkinter.CTk):
 
         self.person_img_data = Image.open("Images/person_icon.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
-        customtkinter.CTkButton(master=self.sidebar_frame, image=self.person_img,text_color=colors[2], text=f"Account\n{email.upper()}", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="NW").pack(anchor="center", ipady=5, pady=(10, 0))
+        customtkinter.CTkButton(master=self.sidebar_frame, image=self.person_img,text_color=colors[2], text=f"Account\n{self.result[1]}", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="NW").pack(anchor="center", ipady=5, pady=(10, 0))
 
         self.analytics_img_data = Image.open("Images/analytics_icon.png")
         self.analytics_img = CTkImage(dark_image=self.analytics_img_data, light_image=self.analytics_img_data)
@@ -40,7 +54,7 @@ class Dashboard(customtkinter.CTk):
 
         self.list_img_data = Image.open("Images/list_icon.png")
         self.list_img = CTkImage(dark_image=self.list_img_data, light_image=self.list_img_data)
-        CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.personal_details).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.settings_img_data = Image.open("Images/settings_icon.png")
         self.settings_img = CTkImage(dark_image=self.settings_img_data, light_image=self.settings_img_data)
@@ -57,7 +71,7 @@ class Dashboard(customtkinter.CTk):
         self.title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         self.title_frame.pack(anchor="n", fill="x",  padx=27, pady=(29, 0))
 
-        CTkLabel(master=self.title_frame, text=f"Hey, Welcome {email} ", font=("Arial Black", 25), text_color=colors[2]).pack(anchor="nw", side="left")
+        CTkLabel(master=self.title_frame, text=f"Hey, Welcome {self.result[1]} ", font=("Arial Black", 25), text_color=colors[2]).pack(anchor="nw", side="left")
 
         self.metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
         self.metrics_frame.pack(anchor="n", fill="x",  padx=27, pady=(36, 0))
@@ -86,8 +100,13 @@ class Dashboard(customtkinter.CTk):
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.balance_metric, text="91", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
-    def transaction(self):
 
+        self.window_count = 0
+
+    def transaction(self):
+        if self.window_count == 2:
+            self.details_frame.destroy()
+        self.window_count = 1
         self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
         self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
@@ -125,6 +144,58 @@ class Dashboard(customtkinter.CTk):
             title="Confirm the transaction",
             fg_color=colors[1],
             button_fg_color=colors[0])
+
+    def personal_details(self):
+        if self.window_count == 1:
+            self.transaction_frame.destroy()
+
+        self.window_count = 2
+        self.details_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+        self.details_frame.pack(fill="x", pady=(45, 0), padx=27)
+
+        self.name = self.result[1]
+        self.acc_no = self.result[0]
+        self.dob = self.result[2]
+        self.gender = self.result[3]
+        self.phone_no = self.result[4]
+        self.email = self.result[6]
+        self.address = self.result[5]
+
+        self.title_label = CTkLabel(master=self.details_frame, text="Personal Details of the Account holder",
+                                    text_color=colors[2], font=("Arial Black", 22))
+        self.title_label.place(x=70, y=20)
+
+        self.name_label = CTkLabel(master=self.details_frame, text=f"NAME\n{self.name}", text_color=colors[2],
+                                   font=("Arial Black", 17))
+        self.name_label.place(x=40, y=70)
+
+        self.account_number_label = CTkLabel(master=self.details_frame, text=f"Account Number\n{self.acc_no}",
+                                             text_color=colors[2],
+                                             font=("Arial Black", 17))
+        self.account_number_label.place(x=40, y=170)
+
+        self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth\n{self.dob}", text_color=colors[2],
+                                  font=("Arial Black", 17))
+        self.dob_label.place(x=60, y=270)
+
+        self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender\n{self.gender}", text_color=colors[2],
+                                     font=("Arial Black", 17))
+        self.gender_label.place(x=270, y=270)
+
+        self.phone_no_label = CTkLabel(master=self.details_frame, text=f"Phone Number\n{self.phone_no}",
+                                       text_color=colors[2],
+                                       font=("Arial Black", 17))
+        self.phone_no_label.place(x=400, y=70)
+
+        self.email_label = CTkLabel(master=self.details_frame, text=f"Email\n{self.email}", text_color=colors[2],
+                                    font=("Arial Black", 17))
+        self.email_label.place(x=350, y=170, anchor="e")
+
+        self.address_label = CTkLabel(master=self.details_frame, text=f"Address\n{self.address}", text_color=colors[2],
+                                      font=("Arial Black", 17))
+        self.address_label.place(x=425, y=270)
+
+
 
 
     # table_data = [
