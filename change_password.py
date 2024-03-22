@@ -4,6 +4,8 @@ import mysql.connector
 import customtkinter
 from customtkinter import *
 
+import connection
+
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
@@ -49,16 +51,11 @@ class Change_password(customtkinter.CTk):
             messagebox.showerror("Error", "Passwords do not match.")
         else:
             try:
-                conn = mysql.connector.connect(
-                    host="localhost",
-                    user="root",
-                    password="9321985498",
-                    database="Bankingsys"
-                )
-                cursor = conn.cursor()
+                db = connection.Connection().get_connection()
+                cursor = db.cursor()
                 cursor.execute("UPDATE login SET password = %s WHERE accno = %s", (new_password, account_number))
-                conn.commit()
-                conn.close()
+                db.commit()
+                db.close()
                 messagebox.showinfo("Success", "Password changed successfully.")
                 self.destroy()  # Close the window after successful password change
             except mysql.connector.Error as err:

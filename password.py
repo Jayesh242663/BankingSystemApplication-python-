@@ -3,6 +3,8 @@ from tkinter import messagebox
 import mysql.connector
 import customtkinter
 from customtkinter import *
+
+import connection
 from adddetails import AddDetails
 from login import Login
 
@@ -56,16 +58,11 @@ class Password(customtkinter.CTk):
             messagebox.showerror("Error", "Please enter a password.")
         else:
             try:
-                conn = mysql.connector.connect(
-                    host="localhost",
-                    user="root",
-                    password="9321985498",
-                    database="Bankingsys"
-                )
-                cursor = conn.cursor()
+                db = connection.Connection().get_connection()
+                cursor = db.cursor()
                 cursor.execute("INSERT INTO login (password) VALUES (%s)", (password1,))
-                conn.commit()
-                conn.close()
+                db.commit()
+                db.close()
                 messagebox.showinfo("Success", "Your password has been set.")
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error: {err}")

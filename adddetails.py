@@ -218,7 +218,7 @@ class AddDetails(customtkinter.CTk):
             db = connector.connect(
                 host="localhost",
                 user="root",
-                password="529374Channe@",
+                password="",
                 port="3306",
                 database="Bankingsys"
             )
