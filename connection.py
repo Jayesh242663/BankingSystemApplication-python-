@@ -9,7 +9,7 @@ class Connection:
                 cls._instance = super().__new__(cls)
                 cls._instance.cnx = mysql.connector.connect(
                     user='root',
-                    password='',
+                    password='9321985498',
                     host='localhost',
                     port='3306',
                     database='bankingsys'

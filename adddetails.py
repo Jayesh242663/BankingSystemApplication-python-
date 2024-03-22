@@ -106,6 +106,9 @@ from mysql import connector
 from customtkinter import *
 from tkinter import messagebox
 
+import connection
+from add_seq_questions import Add_security_question
+
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
@@ -190,10 +193,13 @@ class AddDetails(customtkinter.CTk):
         self.submit_button = CTkButton(master=self.frame, text="Submit", command=self.create_account)
         self.submit_button.place(x=300, y=320)
 
+        self.back_button = CTkButton(master=self.frame, text="Back")
+        self.back_button.place(x=200, y=320)
+
         self.sq_label = CTkLabel(master=self.frame, text="Security Questions:", font=(fonts, 20))
         self.sq_label.place(x=400, y=250)
 
-        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS", )
+        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",command=self.open_sq)
         self.sq_button.place(x=600, y=255)
 
     def create_account(self):
@@ -215,15 +221,9 @@ class AddDetails(customtkinter.CTk):
         account_type = self.account_type.get()
 
         try:
-            db = connector.connect(
-                host="localhost",
-                user="root",
-                password="",
-                port="3306",
-                database="Bankingsys"
-            )
+            db = connection.Connection().get_connection()
             cursor = db.cursor()
-            sql = "INSERT INTO acc_details (name, dob, gender, address, acctype, balance,email) VALUES (%s, %s, %s, %s, %s, %s,%s)"
+            sql = "INSERT INTO acc_details (name, dob, gender, address, acctype,email,phoneno) VALUES (%s, %s, %s, %s, %s, %s,%s)"
 
             # Specify the columns into which you want to insert the data
             data = (name, dob, gender, address, account_type, number, email)
@@ -234,8 +234,13 @@ class AddDetails(customtkinter.CTk):
             messagebox.showinfo("Success", "Account created successfully.")
             self.destroy()
 
+
         except connector.Error as err:
             messagebox.showerror("Error", f"Error: {err}")
+
+    def open_sq(self):
+        sq_page = Add_security_question()
+        sq_page.mainloop()
 
 
 if __name__ == '__main__':
