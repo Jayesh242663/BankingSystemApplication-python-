@@ -1,15 +1,18 @@
+import itertools
 import tkinter
 import customtkinter
-import mysql.connector
+import mysql
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 import connection
-
-
-email = "Jayesh Channe"
-
+import login
 colors = ["#070F2B", "#1B1A55", "#535C91"]
+#
+# colors = ["#070F2B", "#1B1A55", "#535C91"]
+# colors = ["#FF204E","#A0153E","#5D0E41"]
+# colors = ["#FAF0E6","#B9B4C7","#5C5470"]
+# colors = ["#9290C3", "#535C91", "#1B1A55"]
 fonts = 'Century Gothic'
 
 class Dashboard(customtkinter.CTk):
@@ -28,8 +31,6 @@ class Dashboard(customtkinter.CTk):
             self.result = self.result[0]
             for i in self.result:
                 print(i)
-            self.cursor.close()
-            self.db.close()
         except mysql.connector.Error as e:
             print(e)
 
@@ -50,7 +51,7 @@ class Dashboard(customtkinter.CTk):
         self.package_img_data = Image.open("Images/package_icon.png")
         self.package_img = CTkImage(dark_image=self.package_img_data, light_image=self.package_img_data)
 
-        CTkButton(master=self.sidebar_frame, image=self.package_img, text="Transaction\nHistory",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, image=self.package_img, text="Transaction\nHistory",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.history).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.list_img_data = Image.open("Images/list_icon.png")
         self.list_img = CTkImage(dark_image=self.list_img_data, light_image=self.list_img_data)
@@ -62,7 +63,7 @@ class Dashboard(customtkinter.CTk):
 
         self.person_img_data = Image.open("Images/logout_1.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
-        CTkButton(master=self.sidebar_frame, image=self.person_img,text_color="#B53939", text="logout", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="S").pack(anchor="center", ipady=15, pady=(200, 0))
+        CTkButton(master=self.sidebar_frame, image=self.person_img,text_color="#B53939", text="logout", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="S", command=self.logout).pack(anchor="center", ipady=15, pady=(200, 0))
 
         self.main_view = CTkFrame(master=self, fg_color=colors[0],  width=680, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
@@ -99,13 +100,13 @@ class Dashboard(customtkinter.CTk):
 
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.balance_metric, text="91", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
-
-
         self.window_count = 0
 
     def transaction(self):
         if self.window_count == 2:
             self.details_frame.destroy()
+        elif self.window_count == 3:
+            self.table_frame.destroy()
         self.window_count = 1
         self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
         self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
@@ -148,7 +149,8 @@ class Dashboard(customtkinter.CTk):
     def personal_details(self):
         if self.window_count == 1:
             self.transaction_frame.destroy()
-
+        elif self.window_count == 3:
+            self.table_frame.destroy()
         self.window_count = 2
         self.details_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
         self.details_frame.pack(fill="x", pady=(45, 0), padx=27)
@@ -158,8 +160,8 @@ class Dashboard(customtkinter.CTk):
         self.dob = self.result[2]
         self.gender = self.result[3]
         self.phone_no = self.result[4]
-        self.email = self.result[6]
-        self.address = self.result[5]
+        self.email = self.result[5]
+        self.address = self.result[6]
 
         self.title_label = CTkLabel(master=self.details_frame, text="Personal Details of the Account holder",
                                     text_color=colors[2], font=("Arial Black", 22))
@@ -196,36 +198,39 @@ class Dashboard(customtkinter.CTk):
         self.address_label.place(x=425, y=270)
 
 
+    def logout(self):
+        self.destroy()
+        import login
+        login = login.Login()
+        login.mainloop()
 
+    def history(self):
+        if self.window_count == 1:
+            self.transaction_frame.destroy()
+        elif self.window_count == 2:
+            self.details_frame.destroy()
+        try:
+            self.db = connection.Connection().get_connection()
+            self.cursor = self.db.cursor()
+            self.cursor.execute("select sender_accno,name,amount,date,time,transaction_id from transaction where accno = %s", (1,))
+            self.data = self.cursor.fetchall()
+            for result in self.data:
+                print(result)
+        except mysql.connector.Error as e:
+            print(e)
 
-    # table_data = [
-    #     ["Order ID", "Item Name", "Customer", "Address", "Status", "Quantity"],
-    #     ['3833', 'Smartphone', 'Alice', '123 Main St', 'Confirmed', '8'],
-    #     ['6432', 'Laptop', 'Bob', '456 Elm St', 'Packing', '5'],
-    #     ['2180', 'Tablet', 'Crystal', '789 Oak St', 'Delivered', '1'],
-    #     ['5438', 'Headphones', 'John', '101 Pine St', 'Confirmed', '9'],
-    #     ['9144', 'Camera', 'David', '202 Cedar St', 'Processing', '2'],
-    #     ['7689', 'Printer', 'Alice', '303 Maple St', 'Cancelled', '2'],
-    #     ['1323', 'Smartwatch', 'Crystal', '404 Birch St', 'Shipping', '6'],
-    #     ['7391', 'Keyboard', 'John', '505 Redwood St', 'Cancelled', '10'],
-    #     ['4915', 'Monitor', 'Alice', '606 Fir St', 'Shipping', '6'],
-    #     ['5548', 'External Hard Drive', 'David', '707 Oak St', 'Delivered', '10'],
-    #     ['5485', 'Table Lamp', 'Crystal', '808 Pine St', 'Confirmed', '4'],
-    #     ['7764', 'Desk Chair', 'Bob', '909 Cedar St', 'Processing', '9'],
-    #     ['8252', 'Coffee Maker', 'John', '1010 Elm St', 'Confirmed', '6'],
-    #     ['2377', 'Blender', 'David', '1111 Redwood St', 'Shipping', '2'],
-    #     ['5287', 'Toaster', 'Alice', '1212 Maple St', 'Processing', '1'],
-    #     ['7739', 'Microwave', 'Crystal', '1313 Cedar St', 'Confirmed', '8'],
-    #     ['3129', 'Refrigerator', 'John', '1414 Oak St', 'Processing', '5'],
-    #     ['4789', 'Vacuum Cleaner', 'Bob', '1515 Pine St', 'Cancelled', '10']
-    # ]
-    #
-    # table_frame = CTkScrollableFrame(master=main_view, fg_color="transparent")
-    # table_frame.pack(expand=True, fill="both", padx=27, pady=21)
-    # table = CTkTable(master=table_frame, values=table_data, colors=["#E6E6E6", "#EEEEEE"], header_color="#2A8C55", hover_color="#B4B4B4")
-    # table.edit_row(0, text_color="#fff", hover_color="#2A8C55")
-    # table.pack(expand=True)
-
+        self.table_data = [
+            [("Account\nNumber", "Name", "Amount", "Date", "Time","Transaction\nID")]
+        ]
+        self.table_data.append(self.data)
+        self.table_data = list(itertools.chain(*self.table_data))
+        print(self.table_data)
+        self.table_frame = CTkFrame(master=self.main_view, fg_color="transparent")
+        self.table_frame.pack(expand=True, fill="both", padx=27, pady=21)
+        table = CTkTable(master=self.table_frame, values=self.table_data, colors=[colors[1], colors[2]], header_color=colors[1])
+        table.edit_row(0, text_color="#fff")
+        table.pack(expand=True)
+        self.window_count = 3
 
 if __name__ == '__main__':
     dashboard = Dashboard()
