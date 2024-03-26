@@ -8,7 +8,6 @@ from PIL import Image
 import connection
 import login
 colors = ["#070F2B", "#1B1A55", "#535C91"]
-#
 # colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#FF204E","#A0153E","#5D0E41"]
 # colors = ["#FAF0E6","#B9B4C7","#5C5470"]
