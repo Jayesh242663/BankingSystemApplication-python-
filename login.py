@@ -7,7 +7,6 @@ import dashboard
 from adddetails import AddDetails
 #from security_questions import Security_questions
 
-
 colors =["#070F2B","#1B1A55","#535C91"]
 main_theme = ["#070F2B", "#1B1A55", "#535C91"]
 
