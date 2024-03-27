@@ -264,7 +264,7 @@ class Dashboard(customtkinter.CTk):
         try:
             self.db = connection.Connection().get_connection()
             self.cursor = self.db.cursor()
-            self.cursor.execute("select sender_accno,name,amount,date,time,transaction_id from transaction where accno = %s", (1,))
+            self.cursor.execute("select sender_accno,name,amount,date,time,transaction_id from transaction_history where accno = %s", (1,))
             self.data = self.cursor.fetchall()
             for result in self.data:
                 print(result)
