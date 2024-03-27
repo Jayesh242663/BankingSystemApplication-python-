@@ -3,6 +3,8 @@ import mysql.connector
 import customtkinter
 from customtkinter import *
 from tkinter import messagebox
+
+import connection
 import dashboard
 from adddetails import AddDetails
 #from security_questions import Security_questions
@@ -64,13 +66,8 @@ class Login(customtkinter.CTk):
         password = self.password_label.get()
 
         try:
-            db = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                passwd="9321985498",
-                port="3306",
-                database="Bankingsys"
-            )
+            db = connection.Connection().get_connection()
+
             cursor = db.cursor()
 
             sql = "INSERT INTO login (accno, password) VALUES (%s, %s)"
@@ -95,14 +92,9 @@ class Login(customtkinter.CTk):
         password = self.password_label.get()
 
         try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="529374Channe@",
-                port="3306",
-                database="Bankingsys"
-            )
-            cursor = conn.cursor()
+            db = connection.Connection().get_connection()
+
+            cursor = db.cursor()
 
             cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
             global user_record
@@ -116,14 +108,14 @@ class Login(customtkinter.CTk):
                     messagebox.showinfo("Success", "Username and password match. Logging in...")
                     self.destroy()
                     import dashboard
-                    dashboard = dashboard.Dashboard()
+                    dashboard = dashboard.Dashboard(username=username)
                     dashboard.mainloop()
                 else:
                     messagebox.showerror("Error", "Incorrect password. Please try again.")
             else:
                 messagebox.showerror("Error", "User does not exist. Please check your username.")
 
-            conn.close()
+            db.close()
             return user_record
         except mysql.connector.Error as e:
             messagebox.showerror("Error", f"Error: {e}")
