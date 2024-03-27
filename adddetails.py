@@ -107,6 +107,7 @@ from customtkinter import *
 from tkinter import messagebox
 
 import connection
+from add_seq_questions import Security_questions_2
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
@@ -195,7 +196,7 @@ class AddDetails(customtkinter.CTk):
         self.sq_label = CTkLabel(master=self.frame, text="Security Questions:", font=(fonts, 20))
         self.sq_label.place(x=400, y=250)
 
-        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS", )
+        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",command=self.open_add_seq_questions )
         self.sq_button.place(x=600, y=255)
 
     def create_account(self):
@@ -235,6 +236,9 @@ class AddDetails(customtkinter.CTk):
         except connector.Error as err:
             messagebox.showerror("Error", f"Error: {err}")
 
+    def open_add_seq_questions(self):
+        add_seq_questions_page = Security_questions_2()
+        add_seq_questions_page.mainloop()
 
 if __name__ == '__main__':
     details = AddDetails()

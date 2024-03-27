@@ -7,6 +7,8 @@ from tkinter import messagebox
 import connection
 import dashboard
 from adddetails import AddDetails
+from check_seq_question import Security_questions
+
 #from security_questions import Security_questions
 
 colors =["#070F2B","#1B1A55","#535C91"]
@@ -127,8 +129,8 @@ class Login(customtkinter.CTk):
 
     def open_sq_page(self):
         self.destroy()
-        # sq_page = Security_questions()
-        # sq_page.mainloop()
+        sq_page = Security_questions()
+        sq_page.mainloop()
 
 if __name__ == "__main__":
     app = Login()

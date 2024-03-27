@@ -3,6 +3,8 @@ import mysql.connector
 import customtkinter
 from customtkinter import *
 
+import connection
+
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
@@ -56,17 +58,13 @@ class Security_questions_2(customtkinter.CTk):
         user_answer = json.dumps(user_answers)
 
         try:
-            conn = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="9321985498",
-                database="Bankingsys"
-            )
-            cursor = conn.cursor()
+            db = connection.Connection().get_connection()
+
+            cursor = db.cursor()
             cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)",(id, user_answer))
 
-            conn.commit()
-            conn.close()
+            db.commit()
+            db.close()
             print("User answers saved in the database successfully.")
         except mysql.connector.Error as err:
             print("Error:", err)

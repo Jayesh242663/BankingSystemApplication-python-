@@ -87,7 +87,7 @@ class Dashboard(customtkinter.CTk):
         CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
 
         CTkLabel(master=self.account_metric, text="Account Type", text_color="white", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=self.account_metric, text=f"{self.result[5]}", text_color="#fff", font=("Arial Black", 17), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=self.account_metric, text=f"{self.result[7]}", text_color="#fff", font=("Arial Black", 17), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
 
         self.balance_metric = CTkFrame(master=self.metrics_frame, fg_color=colors[1], width=200, height=60)
         self.balance_metric.grid_propagate(0)
@@ -99,7 +99,7 @@ class Dashboard(customtkinter.CTk):
         CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
 
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=self.balance_metric, text=f"{self.result[6]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=self.balance_metric, text=f"{self.result[8]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
         self.window_count = 0
 
 
