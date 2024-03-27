@@ -58,9 +58,8 @@ class Dashboard(customtkinter.CTk):
         self.list_img = CTkImage(dark_image=self.list_img_data, light_image=self.list_img_data)
         CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.personal_details).pack(anchor="center", ipady=5, pady=(16, 0))
 
-        self.settings_img_data = Image.open("Images/settings_icon.png")
-        self.settings_img = CTkImage(dark_image=self.settings_img_data, light_image=self.settings_img_data)
-        CTkButton(master=self.sidebar_frame, image=self.settings_img, text="Settings",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w").pack(anchor="center", ipady=5, pady=(16, 0))
+
+        CTkButton(master=self.sidebar_frame, text="Deposit",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command= self.deposit).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.person_img_data = Image.open("Images/logout_1.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
@@ -102,6 +101,57 @@ class Dashboard(customtkinter.CTk):
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.balance_metric, text=f"{self.result[6]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
         self.window_count = 0
+
+
+    def deposit(self):
+        if self.window_count == 2:
+            self.details_frame.destroy()
+        elif self.window_count == 3:
+            self.table_frame.destroy()
+        self.window_count = 1
+        self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+        self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
+
+        self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+                                          text="Deposit\nTo Perfom any transaction.\nPlease fill the given details.",
+                                          font=("Arial Black", 20))
+        self.label_transaction.place(x=150, y=10)
+
+        self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Deposited",
+                                     font=("Arial BLack", 17))
+        self.amount_label.place(x=35, y=250)
+
+        self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
+        self.amount_entry.place(x=335, y=250)
+
+        self.Deposit_button = CTkButton(master=self.transaction_frame, text="Deposit", command=self.add_money)
+        self.Deposit_button.place(x=225, y=350)
+
+    def add_money(self):
+        username = self.username
+        print(username)
+        db = connection.Connection().get_connection()
+        entered_amount = int(self.amount_entry.get())
+
+        cursor = db.cursor()
+        query = "SELECT balance FROM acc_details WHERE accno = %s"
+        cursor.execute(query, (username,))
+        result = cursor.fetchone()
+        print(result)
+
+        if result is not None:  # Check if result is not None
+            current_balance = int(result[0])
+            new_balance = current_balance + entered_amount
+
+            update_query = "UPDATE acc_details SET balance = %s WHERE accno = %s"
+            cursor.execute(update_query, (new_balance, self.username))
+            db.commit()
+            cursor.close()
+            db.close()
+
+            print("Deposit successful. New balance:", new_balance)
+        else:
+            print("Account not found or result is None.")
 
     def transaction(self):
         if self.window_count == 2:
@@ -158,7 +208,6 @@ class Dashboard(customtkinter.CTk):
 
         self.name = self.result[1]
         self.email = self.result[5]
-
         self.acc_no = self.result[0]
         self.dob = self.result[2]
         self.gender = self.result[3]

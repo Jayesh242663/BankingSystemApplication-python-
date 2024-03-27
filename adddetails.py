@@ -106,6 +106,8 @@ from mysql import connector
 from customtkinter import *
 from tkinter import messagebox
 
+import connection
+
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
@@ -203,30 +205,26 @@ class AddDetails(customtkinter.CTk):
         month = self.month.get()
         year = self.year.get()
         dob = f"{year}-{month}-{day}"
-        number = self.number_entry.get()
+        phoneno = self.number_entry.get()
         address = self.address_entry.get()
         gender = self.radio_var.get()
+        balance = 500
         if gender == 1:
             gender = "male"
         elif gender == 2:
             gender = "female"
         else:
-            print("enter the proper gender")
+            print("Enter the proper gender")
+            return
+
         account_type = self.account_type.get()
 
         try:
-            db = connector.connect(
-                host="localhost",
-                user="root",
-                password="",
-                port="3306",
-                database="Bankingsys"
-            )
+            db = connection.Connection().get_connection()
             cursor = db.cursor()
-            sql = "INSERT INTO acc_details (name, dob, gender, address, acctype, balance,email) VALUES (%s, %s, %s, %s, %s, %s,%s)"
+            sql = "INSERT INTO acc_details (name, dob, gender, address, phoneno, acctype, email, balance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-            # Specify the columns into which you want to insert the data
-            data = (name, dob, gender, address, account_type, number, email)
+            data = (name, dob, gender, address, phoneno, account_type, email, balance)
 
             cursor.execute(sql, data)
             db.commit()
