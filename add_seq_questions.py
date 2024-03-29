@@ -1,4 +1,6 @@
 import json
+from tkinter import messagebox
+
 import mysql.connector
 import customtkinter
 from customtkinter import *
@@ -23,6 +25,7 @@ class Security_questions_2(customtkinter.CTk):
                 data = json.load(file)
                 self.questions = data["questions"]
                 self.create_question_widgets()
+
         except FileNotFoundError:
             print("Error: questions.json file not found.")
 
@@ -46,9 +49,28 @@ class Security_questions_2(customtkinter.CTk):
         self.submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
         self.submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
 
+
     def submit_answers(self):
         id = self.Accno.get()
         user_answers = {}
+
+        # Check if all answer entries are filled
+        all_answers_filled = all(answer_entry.get() for answer_entry in self.answers.values())
+
+        if not all_answers_filled:
+            messagebox.showerror("Error", "Please answer all three security questions.")
+            return
+
+        if not id:
+            messagebox.showerror("Error", "Enter Your account number")
+            return
+
+        try:
+            id = int(id)
+        except ValueError:
+            messagebox.showerror("Error", "Account Number should be a number")
+            return
+
         for question_id, answer_entry in self.answers.items():
             user_answers[question_id] = answer_entry.get()
 
@@ -61,13 +83,14 @@ class Security_questions_2(customtkinter.CTk):
             db = connection.Connection().get_connection()
 
             cursor = db.cursor()
-            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)",(id, user_answer))
+            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)", (id, user_answer))
 
             db.commit()
             db.close()
             print("User answers saved in the database successfully.")
         except mysql.connector.Error as err:
             print("Error:", err)
+
 
 if __name__ == '__main__':
     App = Security_questions_2()

@@ -94,6 +94,8 @@ class Login(customtkinter.CTk):
         password = self.password_label.get()
 
         try:
+            if type(username) != int:
+                messagebox.showerror("Error", "Account Number should be a number")
             db = connection.Connection().get_connection()
 
             cursor = db.cursor()
@@ -106,12 +108,12 @@ class Login(customtkinter.CTk):
                 db_password = user_record[0]
 
                 if password == db_password:
-                    accno = user_record
                     messagebox.showinfo("Success", "Username and password match. Logging in...")
                     self.destroy()
                     import dashboard
                     dashboard = dashboard.Dashboard(username=username)
                     dashboard.mainloop()
+
                 else:
                     messagebox.showerror("Error", "Incorrect password. Please try again.")
             else:

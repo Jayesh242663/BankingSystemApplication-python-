@@ -232,6 +232,9 @@ class AddDetails(customtkinter.CTk):
             db.close()
             messagebox.showinfo("Success", "Account created successfully.")
             self.destroy()
+            from password import Password
+            password_page = Password()
+            password_page.mainloop()
 
         except connector.Error as err:
             messagebox.showerror("Error", f"Error: {err}")

@@ -49,6 +49,8 @@ class Change_password(customtkinter.CTk):
             messagebox.showerror("Error", "Please fill in all fields.")
         elif new_password != confirm_password:
             messagebox.showerror("Error", "Passwords do not match.")
+        elif type(account_number) != int:
+            messagebox.showerror("Error", "Account Number should be a number")
         else:
             try:
                 db = connection.Connection().get_connection()

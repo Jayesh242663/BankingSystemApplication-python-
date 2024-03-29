@@ -1,4 +1,6 @@
 import json
+from tkinter import messagebox
+
 import customtkinter
 from customtkinter import *
 import mysql.connector
@@ -50,6 +52,21 @@ class Security_questions(customtkinter.CTk):
     def submit_answers(self):
         account_number = self.Accno.get()
         user_answers = {}
+
+        all_answers_filled = all(answer_entry.get() for answer_entry in self.answers.values())
+
+        if not all_answers_filled:
+            messagebox.showerror("Error", "Please answer all three security questions.")
+            return
+        elif not account_number:
+            messagebox.showerror("Error", "Enter Your account number")
+            return
+
+        try:
+            account_number = int(account_number)
+        except ValueError:
+            messagebox.showerror("Error", "Account Number should be a number")
+            return
         for question_id, answer_entry in self.answers.items():
             user_answers[question_id] = answer_entry.get()
 

@@ -52,10 +52,10 @@ class Password(customtkinter.CTk):
         password1 = self.password_entry.get()
         password2 = self.cnfpassword_entry.get()
 
-        if password1 != password2:
+        if not password1 or not password2:
+            messagebox.showerror("Error", "Please enter both password and confirm password.")
+        elif password1 != password2:
             messagebox.showerror("Error", "Passwords do not match.")
-        elif not password1:
-            messagebox.showerror("Error", "Please enter a password.")
         else:
             try:
                 db = connection.Connection().get_connection()
@@ -65,7 +65,9 @@ class Password(customtkinter.CTk):
                 db.close()
                 messagebox.showinfo("Success", "Your password has been set.")
             except mysql.connector.Error as err:
-                messagebox.showerror("Error", f"Error: {err}")
+                messagebox.showerror("Database Error", f"Error: {err}")
+            except Exception as e:
+                messagebox.showerror("Error", f"An unexpected error occurred: {e}")
 
     def open_add_details(self):
         self.destroy()
