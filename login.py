@@ -64,8 +64,10 @@ class Login(customtkinter.CTk):
         self.forget_button = CTkButton(master=self.frame,text="Forgot password",font=(fonts,12),text_color="white",fg_color=main_theme[1],hover=(main_theme[1]),command=self.open_sq_page)
         self.forget_button.place(x=150,y=202)
     def login(self):
-        accno = self.account_no_label.get()
-        password = self.password_label.get()
+        global accno
+        accno= self.account_no_label.get()
+        global password
+        password= self.password_label.get()
 
         try:
             db = connection.Connection().get_connection()
@@ -112,7 +114,7 @@ class Login(customtkinter.CTk):
                     messagebox.showinfo("Success", "Username and password match. Logging in...")
                     self.destroy()
                     import dashboard
-                    dashboard = dashboard.Dashboard(username=username)
+                    dashboard = dashboard.Dashboard(username=username, password=password)
                     dashboard.mainloop()
 
                 else:
