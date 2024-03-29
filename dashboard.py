@@ -1,11 +1,12 @@
 import itertools
-import tkinter
+from tkinter import messagebox
 import customtkinter
 import mysql
 from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 import connection
+import datetime
 import login
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#070F2B", "#1B1A55", "#535C91"]
@@ -15,10 +16,11 @@ colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
 class Dashboard(customtkinter.CTk):
-    def __init__(self, username):
+    def __init__(self, username, password):
         super().__init__()
         self.title("Dashboard")
         self.username = username
+        self.password = password
         print(self.username)
         self.search_container = None
         self.geometry("856x645")
@@ -185,18 +187,39 @@ class Dashboard(customtkinter.CTk):
         self.transfer_button.place(x=225, y=350)
 
     def confirm_transaction(self):
+
         acc_no = self.sender_entry.get()
-        amt = self.amount_entry.get()
+        amt = int(self.amount_entry.get())
+        if amt <= int(self.result[8]):
+            self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
+            amount_of_sender = self.cursor.fetchall()
+            amount_of_sender = (amount_of_sender[0])
+            amount_of_sender = str(amount_of_sender[8])
 
-        self.amount_entry.delete(0,END)
-        self.sender_entry.delete(0, END)
+            self.amount_entry.delete(0,END)
+            self.sender_entry.delete(0, END)
 
-        self.password_of_account = CTkInputDialog(
-            text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
-            title="Confirm the transaction",
-            fg_color=colors[1],
-            button_fg_color=colors[0])
+            self.password_of_account = CTkInputDialog(
+                text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
+                title="Confirm the transaction",
+                fg_color=colors[1],
+                button_fg_color=colors[0])
+            password_of_account = self.password_of_account.get_input()
+            print(self.password_of_account)
 
+            if password_of_account == self.password:
+                new_amount = int(amount_of_sender) + int(amt)
+                new_amount = str(new_amount)
+                self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s", (new_amount, acc_no,))
+                messagebox.showinfo("Transaction","Transaction Successful")
+                self.db.commit()
+                self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
+                trass = self.cursor.fetchall()
+                print(trass)
+            else:
+               messagebox.showerror("Error","Your entered wrong password")
+        else:
+            messagebox.showerror("Error", "You have low balance")
     def personal_details(self):
         if self.window_count == 1:
             self.transaction_frame.destroy()
