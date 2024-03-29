@@ -94,7 +94,7 @@ class Login(customtkinter.CTk):
         password = self.password_label.get()
 
         try:
-            if type(username) != int:
+            if username.isdigit() is not True:
                 messagebox.showerror("Error", "Account Number should be a number")
             db = connection.Connection().get_connection()
 
@@ -102,6 +102,7 @@ class Login(customtkinter.CTk):
 
             cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
             global user_record
+
             user_record = cursor.fetchone()
 
             if user_record:
