@@ -78,7 +78,7 @@ class Security_questions(customtkinter.CTk):
             cursor = db.cursor()
             cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
             result = cursor.fetchone()
-            print(result[0])
+            # print(result[0])
 
             if result:
                 user_answers = json.loads(result[0])
@@ -87,10 +87,11 @@ class Security_questions(customtkinter.CTk):
                     change_password_page = Change_password()
                     change_password_page.mainloop()
 
+
                 else:
                     print("User answers do not match the stored answers.")
             else:
-                print("No user answers found for the provided account number.")
+                messagebox.showerror("Error","No user answers found for the provided account number.")
 
             db.close()
 
