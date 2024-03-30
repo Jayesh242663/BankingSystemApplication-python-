@@ -9,10 +9,10 @@ class Connection:
                 cls._instance = super().__new__(cls)
                 cls._instance.cnx = mysql.connector.connect(
                     user='root',
-                    password='9321985498',
+                    password='529374Channe@',
                     host='localhost',
                     port='3306',
-                    database='varad'
+                    database='bankingsys'
                 )
             return cls._instance
         except mysql.connector.Error as e:
