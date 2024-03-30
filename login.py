@@ -8,7 +8,7 @@ import connection
 import dashboard
 from adddetails import AddDetails
 from check_seq_question import Security_questions
-
+from datetime import datetime
 #from security_questions import Security_questions
 
 colors =["#070F2B","#1B1A55","#535C91"]

@@ -6,7 +6,7 @@ from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
 import connection
-import datetime
+from datetime import datetime
 import login
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#070F2B", "#1B1A55", "#535C91"]
@@ -133,7 +133,7 @@ class Dashboard(customtkinter.CTk):
         username = self.username
         print(username)
         db = connection.Connection().get_connection()
-        entered_amount = int(self.amount_entry.get())
+        entered_amount = float(self.amount_entry.get())
 
         cursor = db.cursor()
         query = "SELECT balance FROM acc_details WHERE accno = %s"
@@ -187,39 +187,68 @@ class Dashboard(customtkinter.CTk):
         self.transfer_button.place(x=225, y=350)
 
     def confirm_transaction(self):
+        dt = datetime.now()
+        date = dt.date()
+        time = dt.time()
 
         acc_no = self.sender_entry.get()
-        amt = int(self.amount_entry.get())
-        if amt <= int(self.result[8]):
-            self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
-            amount_of_sender = self.cursor.fetchall()
-            amount_of_sender = (amount_of_sender[0])
-            amount_of_sender = str(amount_of_sender[8])
+        amt = float(self.amount_entry.get())
+        if acc_no != self.username:
+            if amt > 0:
+                if amt <= float(self.result[8]):
+                    self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
+                    amount_of_sender = self.cursor.fetchall()
+                    user_data = (amount_of_sender[0])
+                    amount_of_sender = str(user_data[8])
 
-            self.amount_entry.delete(0,END)
-            self.sender_entry.delete(0, END)
+                    self.amount_entry.delete(0,END)
+                    self.sender_entry.delete(0, END)
 
-            self.password_of_account = CTkInputDialog(
-                text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
-                title="Confirm the transaction",
-                fg_color=colors[1],
-                button_fg_color=colors[0])
-            password_of_account = self.password_of_account.get_input()
-            print(self.password_of_account)
+                    self.password_of_account = CTkInputDialog(
+                        text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
+                        title="Confirm the transaction",
+                        fg_color=colors[1],
+                        button_fg_color=colors[0])
+                    password_of_account = self.password_of_account.get_input()
+                    print(self.password_of_account)
 
-            if password_of_account == self.password:
-                new_amount = int(amount_of_sender) + int(amt)
-                new_amount = str(new_amount)
-                self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s", (new_amount, acc_no,))
-                messagebox.showinfo("Transaction","Transaction Successful")
-                self.db.commit()
-                self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
-                trass = self.cursor.fetchall()
-                print(trass)
+                    if password_of_account == self.password:
+                        remaining_balance = float(self.result[8]) - float(amt)
+                        print(remaining_balance)
+
+                        self.cursor.execute("update acc_details set balance = %s where accno = %s",
+                                            (remaining_balance, self.username,))
+
+                        new_amount = float(amount_of_sender) + float(amt)
+                        new_amount = str(new_amount)
+
+                        self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s", (new_amount, acc_no,))
+
+                        messagebox.showinfo("Transaction","Transaction Successful")
+                        add_amt = f"+{amt}"
+                        minus_amt = f"-{amt}"
+                        self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
+                        trass = self.cursor.fetchall()
+                        print(trass)
+                        self.cursor.execute("insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
+                                            (self.username,acc_no,user_data[1],minus_amt,date,time))
+                        self.cursor.execute(
+                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
+                            (acc_no, self.username, user_data[1], add_amt, date, time))
+                        print("history done")
+                        self.db.commit()
+                        CTkLabel(master=self.balance_metric, text=f"{remaining_balance}", text_color="#fff",
+                                 font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw",
+                                                                                pady=(0, 10))
+                    else:
+                       messagebox.showerror("Error","Your entered wrong password")
+                else:
+                    messagebox.showerror("Error", "You have low balance")
             else:
-               messagebox.showerror("Error","Your entered wrong password")
+                messagebox.showerror("Error", "please enter correct Account Number")
         else:
-            messagebox.showerror("Error", "You have low balance")
+            messagebox.showerror("Error", "Please enter correct amount")
+
     def personal_details(self):
         if self.window_count == 1:
             self.transaction_frame.destroy()
@@ -287,7 +316,7 @@ class Dashboard(customtkinter.CTk):
         try:
             self.db = connection.Connection().get_connection()
             self.cursor = self.db.cursor()
-            self.cursor.execute("select sender_accno,name,amount,date,time,transaction_id from transaction_history where accno = %s", (1,))
+            self.cursor.execute("select sender_accno,name,amount,date,time from transaction_history where accno = %s", (self.username,))
             self.data = self.cursor.fetchall()
             for result in self.data:
                 print(result)
@@ -295,7 +324,7 @@ class Dashboard(customtkinter.CTk):
             print(e)
 
         self.table_data = [
-            [("Account\nNumber", "Name", "Amount", "Date", "Time","Transaction\nID")]
+            [("Account\nNumber", "Name", "Amount", "Date", "Time")]
         ]
         self.table_data.append(self.data)
         self.table_data = list(itertools.chain(*self.table_data))
