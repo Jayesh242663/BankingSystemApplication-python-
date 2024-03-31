@@ -86,7 +86,7 @@ class Dashboard(customtkinter.CTk):
         self.logitics_img_data = Image.open("Images/logistics_icon.png")
         self.logistics_img = CTkImage(light_image=self.logitics_img_data, dark_image=self.logitics_img_data, size=(43, 43))
 
-        CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), )
 
         CTkLabel(master=self.account_metric, text="Account Type", text_color="white", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.account_metric, text=f"{self.result[7]}", text_color="#fff", font=("Arial Black", 17), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
@@ -98,7 +98,7 @@ class Dashboard(customtkinter.CTk):
         self.shipping_img_data = Image.open("Images/shipping_icon.png")
         self.shipping_img = CTkImage(light_image=self.shipping_img_data, dark_image=self.shipping_img_data, size=(43, 43))
 
-        CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), pady=10)
+        CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), )
 
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.balance_metric, text=f"{self.result[8]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
@@ -268,38 +268,38 @@ class Dashboard(customtkinter.CTk):
 
         self.title_label = CTkLabel(master=self.details_frame, text="Personal Details of the Account holder",
                                     text_color=colors[2], font=("Arial Black", 22))
-        self.title_label.place(x=70, y=20)
+        self.title_label.grid(row=0, column=0, padx=70, pady=10)
 
-        self.name_label = CTkLabel(master=self.details_frame, text=f"NAME:- {self.name}", text_color=colors[2],
+        self.name_label = CTkLabel(master=self.details_frame, text=f"Name :- {self.name}", text_color=colors[2],
                                    font=("Arial Black", 17))
-        self.name_label.place(x=40, y=70)
+        self.name_label.grid(row=1, column=0, padx=70, pady=10)
 
-        self.email_label = CTkLabel(master=self.details_frame, text=f"Email:- {self.email}",
+        self.email_label = CTkLabel(master=self.details_frame, text=f"Email :- {self.email}",
                                     text_color=colors[2],
                                     font=("Arial Black", 17))
-        self.email_label.place(x=250, y=120, anchor="e")
+        self.email_label.grid(row=2, column=0, padx=70, pady=10)
 
-        self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth:- {self.dob}", text_color=colors[2],
+        self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth :- {self.dob}", text_color=colors[2],
                                   font=("Arial Black", 17))
-        self.dob_label.place(x=40, y=150)
+        self.dob_label.grid(row=3, column=0, padx=70, pady=10)
 
-        self.phone_no_label = CTkLabel(master=self.details_frame, text=f"Phone Number:- {self.phone_no}",
+        self.phone_no_label = CTkLabel(master=self.details_frame, text=f"Phone Number :- {self.phone_no}",
                                        text_color=colors[2],
                                        font=("Arial Black", 17))
-        self.phone_no_label.place(x=40, y=190)
+        self.phone_no_label.grid(row=4, column=0, padx=70, pady=10)
 
-        self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender:- {self.gender}", text_color=colors[2],
+        self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender :- {self.gender}", text_color=colors[2],
                                      font=("Arial Black", 17))
-        self.gender_label.place(x=40, y=230)
+        self.gender_label.grid(row=5, column=0, padx=70, pady=10)
 
-        self.account_number_label = CTkLabel(master=self.details_frame, text=f"Account Number:- {self.acc_no}",
+        self.account_number_label = CTkLabel(master=self.details_frame, text=f"Account Number :- {self.acc_no}",
                                              text_color=colors[2],
                                              font=("Arial Black", 17))
-        self.account_number_label.place(x=40, y=270)
+        self.account_number_label.grid(row=6, column=0, padx=70, pady=10)
 
-        self.address_label = CTkLabel(master=self.details_frame, text=f"Address:- {self.address}", text_color=colors[2],
+        self.address_label = CTkLabel(master=self.details_frame, text=f"Address :- {self.address}", text_color=colors[2],
                                       font=("Arial Black", 17))
-        self.address_label.place(x=40, y=310)
+        self.address_label.grid(row=7, column=0, padx=70, pady=10)
 
 
     def logout(self):
