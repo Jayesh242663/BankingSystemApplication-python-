@@ -1,4 +1,5 @@
 import json
+import tkinter
 from tkinter import messagebox
 
 import mysql.connector
@@ -14,7 +15,6 @@ class Security_questions_2(customtkinter.CTk):
     def __init__(self):
         super().__init__()
         self.title("SECURITY QUESTIONS")
-        self.config(bg="Black")
         self.geometry("600x400")
 
         self.load_questions()
@@ -31,30 +31,29 @@ class Security_questions_2(customtkinter.CTk):
 
     def create_question_widgets(self):
         self.answers = {}
+        self.config(bg=colors[0])
+
+        self.check_label = CTkLabel(master=self, text = "FILL SECURITY QUESTIONS FOR YOUR PASSWORD RECOVERY" ,font=(fonts, 18))
+        self.check_label.place(x=50, y=10)
+
+        self.frame = CTkFrame(master=self, width=1200, height=580, fg_color=colors[2], corner_radius=16,
+                              border_color="#3E065F", bg_color=colors[0])
+        self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
         for i, question_data in enumerate(self.questions):
-            question_label = CTkLabel(master=self, text=question_data["question"], font=(fonts, 12), wraplength=500)
+            question_label = CTkLabel(master=self.frame, text=question_data["question"], font=(fonts, 16), wraplength=500)
             question_label.grid(row=i, column=0, padx=10, pady=10, sticky="w")
 
-            answer_entry = CTkEntry(master=self, font=(fonts, 12))
+            answer_entry = CTkEntry(master=self.frame, font=(fonts, 12))
             answer_entry.grid(row=i, column=1, padx=10, pady=10, sticky="w")
 
             self.answers[question_data["id"]] = answer_entry
 
-        self.Accno = CTkEntry(master=self, width=150, placeholder_text="Account number", fg_color="#424769")
-        self.Accno.place(x=230, y=150)
-
-        self.Accno_label = CTkLabel(master=self, text="Account number")
-        self.Accno_label.place(x=10, y=150)
-
-        self.submit_button = CTkButton(master=self, text="Submit", font=(fonts, 12), command=self.submit_answers)
+        self.submit_button = CTkButton(master=self.frame, text="Submit", font=(fonts, 16), command=self.submit_answers)
         self.submit_button.grid(row=len(self.questions), columnspan=2, pady=40)
 
-
     def submit_answers(self):
-        id = self.Accno.get()
         user_answers = {}
 
-        # Check if all answer entries are filled
         all_answers_filled = all(answer_entry.get() for answer_entry in self.answers.values())
 
         if not all_answers_filled:
@@ -65,16 +64,9 @@ class Security_questions_2(customtkinter.CTk):
             messagebox.showerror("Error", "Enter Your account number")
             return
 
-        try:
-            id = int(id)
-        except ValueError:
-            messagebox.showerror("Error", "Account Number should be a number")
-            return
-
         for question_id, answer_entry in self.answers.items():
             user_answers[question_id] = answer_entry.get()
 
-        print("Account Number:", id)
         print("User Answers:", user_answers)
 
         user_answer = json.dumps(user_answers)
@@ -83,7 +75,7 @@ class Security_questions_2(customtkinter.CTk):
             db = connection.Connection().get_connection()
 
             cursor = db.cursor()
-            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (%s, %s)", (id, user_answer))
+            cursor.execute("INSERT INTO answer (id, user_answer) VALUES (NULL, %s)", (user_answer,))
 
             db.commit()
             db.close()
