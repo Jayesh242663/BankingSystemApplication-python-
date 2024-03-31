@@ -205,7 +205,7 @@ class Dashboard(customtkinter.CTk):
                     self.sender_entry.delete(0, END)
 
                     self.password_of_account = CTkInputDialog(
-                        text=f"You are transfering money to {acc_no}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
+                        text=f"You are transfering money to {user_data[1]}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
                         title="Confirm the transaction",
                         fg_color=colors[1],
                         button_fg_color=colors[0])
@@ -300,7 +300,6 @@ class Dashboard(customtkinter.CTk):
         self.address_label = CTkLabel(master=self.details_frame, text=f"Address:- {self.address}", text_color=colors[2],
                                       font=("Arial Black", 17))
         self.address_label.place(x=40, y=310)
-
 
     def logout(self):
         self.destroy()
