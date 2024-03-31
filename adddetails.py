@@ -96,8 +96,7 @@
 # if __name__ == "__main__":
 #     app = AddDetails()
 #     app.mainloop()
-
-
+import time
 import tkinter
 from datetime import datetime
 
@@ -229,8 +228,11 @@ class AddDetails(customtkinter.CTk):
 
             cursor.execute(sql, data)
             db.commit()
+            account_no = cursor.lastrowid
             db.close()
             messagebox.showinfo("Success", "Account created successfully.")
+            time.sleep(2)
+            messagebox._show("Success", f"Your Account number:{account_no}")
             self.destroy()
             from password import Password
             password_page = Password()
