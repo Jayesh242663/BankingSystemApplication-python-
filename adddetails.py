@@ -1,104 +1,7 @@
-# import tkinter as tk
-# from tkinter import messagebox
-# from tkinter.ttk import Button, Combobox
-# from Buttons import HoverButton
-#
-#
-# import mysql.connector
-# from tkcalendar import DateEntry
-# class AddDetails(tk.Tk):
-#     def __init__(self):
-#         super().__init__()
-#         self.title("Signup")
-#         self.geometry("800x600")
-#         self.create_widgets()
-#
-#
-#     def create_widgets(self):
-#         self.image3 = tk.PhotoImage(file="./Images/Banking_1.png")
-#         self.bank_label_3 = tk.Label(self, image=self.image3,)
-#         self.bank_label_3.place(x=0, y=0)
-#         labels = ["Name:", "D.O.B:", "Gender:", "Address:", "Account Type:", "Balance:"]
-#         for i, label_text in enumerate(labels):
-#             label = tk.Label(self, text=label_text, font=("Tahoma", 14, "bold"), fg="white",bg="black")
-#             label.place(x=100, y=30 + i * 70)
-#
-#         # Entry FieldsD
-#         self.name_entry = tk.Entry(self, font=("Tahoma", 14))
-#         self.name_entry.place(x=250, y=30, width=300)
-#
-#         self.dob_entry = DateEntry(self, font=("Tahoma", 14))
-#         self.dob_entry.place(x=250, y=100, width=300)
-#
-#         self.gender_var = tk.StringVar()
-#         self.male_radio = tk.Radiobutton(self, text="Male", font=("Tahoma", 14), variable=self.gender_var, value="Male")
-#         self.male_radio.place(x=250, y=170)
-#
-#         self.female_radio = tk.Radiobutton(self, text="Female", font=("Tahoma", 14), variable=self.gender_var, value="Female")
-#         self.female_radio.place(x=400, y=170)
-#
-#         self.address_entry = tk.Entry(self, font=("Tahoma", 14))
-#         self.address_entry.place(x=250, y=240, width=300)
-#
-#         account_types = ["Savings", "Current", "Personal"]
-#         self.acctype_combobox = Combobox(self, values=account_types, font=("Tahoma", 14))
-#         self.acctype_combobox.place(x=250, y=310, width=300)
-#
-#         self.balance_entry = tk.Entry(self, font=("Tahoma", 14))
-#         self.balance_entry.place(x=250, y=380, width=300)
-#
-#         # Buttons
-#         self.next_button = HoverButton(self, text="NEXT",bg='#FFFFFF', command=self.store_data)
-#         self.next_button.place(x=300, y=470)
-#
-#         self.back_button = HoverButton(self, text="Back",bg='#FFFFFF', command=self.open_starter)
-#         self.back_button.place(x=100, y=470)
-#
-#     def store_data(self):
-#         try:
-#             name = self.name_entry.get()
-#             dob = self.dob_entry.get()
-#             gender = self.gender_var.get()
-#             address = self.address_entry.get()
-#             acctype = self.acctype_combobox.get()
-#             balance = self.balance_entry.get()
-#
-#             db = mysql.connector.connect(
-#                 host="localhost",
-#                 user="root",
-#                 password="9321985498",
-#                 port="3306",
-#                 database="Bankingsys"
-#             )
-#             cursor = db.cursor()
-#             sql = "INSERT INTO acc_details (name, dob, gender, address, acctype, balance) VALUES (%s, %s, %s, %s, %s, %s)"
-#
-#             # Specify the columns into which you want to insert the data
-#             data = (name, dob, gender, address, acctype, balance)
-#
-#             cursor.execute(sql, data)
-#             db.commit()
-#             db.close()
-#             messagebox.showinfo("Success", "Account created successfully.")
-#             self.destroy()
-#             import password
-#             password.Password()
-#         except mysql.connector.Error as err:
-#             messagebox.showerror("Error", f"Error: {err}")
-#
-#     def open_starter(self):
-#         self.destroy()
-#         import starter
-#         starter.Starter()
-#
-#
-#
-# if __name__ == "__main__":
-#     app = AddDetails()
-#     app.mainloop()
 import time
 import tkinter
-from datetime import datetime
+from datetime import datetime, date
+import re
 
 import customtkinter
 from mysql import connector
@@ -198,6 +101,26 @@ class AddDetails(customtkinter.CTk):
         self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",command=self.open_add_seq_questions )
         self.sq_button.place(x=600, y=255)
 
+    def has_special_char(self,s):
+        if re.search(r'\W', s) or re.search(r'\d',s) :
+            return True
+        else:
+            return False
+
+    def email_check(self,s):
+        if re.search(r'@', s) and re.search(r'.com',s) :
+            return False
+        else:
+            return True
+
+    def phone_number_check(self, s):
+        if re.search(r'\W', s) and re.search(r'[^A-Za-z]',s):
+            if len(s) == 10:
+               return False
+        else:
+            return True
+
+
     def create_account(self):
         name = self.name_entry.get()
         email = self.email_entry.get()
@@ -208,38 +131,58 @@ class AddDetails(customtkinter.CTk):
         phoneno = self.number_entry.get()
         address = self.address_entry.get()
         gender = self.radio_var.get()
-        balance = 500
-        if gender == 1:
-            gender = "male"
-        elif gender == 2:
-            gender = "female"
-        else:
-            print("Enter the proper gender")
-            return
-
         account_type = self.account_type.get()
 
-        try:
-            db = connection.Connection().get_connection()
-            cursor = db.cursor()
-            sql = "INSERT INTO acc_details (name, dob, gender, address, phoneno, acctype, email, balance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        if name == "" or email == "" or phoneno == "" or address == "":
+            messagebox.showerror("ERROR", "Please fill all the information listed")
+        else:
+            if self.has_special_char(name):
+                messagebox.showerror("Incorrect NAME", "Name should not have any NUMBERS/SYMBOLS/SPACES")
+            else:
+                if self.email_check(email):
+                    messagebox.showerror("Incorrect EMAIL", "Please check your EMAIL ADDRESS")
+                else:
+                    if day.isdigit() and month.isdigit() and year.isdigit() is not True:
+                        messagebox.showerror("Date Of Birth", "Please fill your Birthdate")
+                    else:
+                        today = date.today()
+                        age = today.year - int(year) - ((today.month, today.day) < (int(month), int(day)))
+                        if age <= 18:
+                            messagebox.showerror("Age Error", "Minors can't open an Account")
+                        else:
+                            if phoneno.isdigit() is not True:
+                               messagebox.showerror("Incorrect Phone Number", "Please recheck your PHONE NUMBER")
+                            elif len(phoneno) != 10:
+                                messagebox.showerror("Incorrect Phone Number", "Your phone number should be of 10 digits")
+                            else:
+                                balance = 500
+                                if gender == 1:
+                                    gender = "male"
+                                elif gender == 2:
+                                    gender = "female"
+                                if gender == 0:
+                                    messagebox.showerror("Gender", "Please select your gender")
+                                else:
+                                    try:
+                                        db = connection.Connection().get_connection()
+                                        cursor = db.cursor()
+                                        sql = "INSERT INTO acc_details (name, dob, gender, address, phoneno, acctype, email, balance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-            data = (name, dob, gender, address, phoneno, account_type, email, balance)
+                                        data = (name, dob, gender, address, phoneno, account_type, email, balance)
 
-            cursor.execute(sql, data)
-            db.commit()
-            account_no = cursor.lastrowid
-            db.close()
-            messagebox.showinfo("Success", "Account created successfully.")
-            time.sleep(2)
-            messagebox._show("Success", f"Your Account number:{account_no}")
-            self.destroy()
-            from password import Password
-            password_page = Password()
-            password_page.mainloop()
+                                        cursor.execute(sql, data)
+                                        db.commit()
+                                        account_no = cursor.lastrowid
+                                        messagebox.showinfo("Success", "Account created successfully.")
+                                        time.sleep(2)
+                                        messagebox._show("Success", f"Your Account number:{account_no}")
+                                        self.destroy()
+                                        from password import Password
+                                        password_page = Password()
+                                        password_page.mainloop()
 
-        except connector.Error as err:
-            messagebox.showerror("Error", f"Error: {err}")
+                                    except connector.Error as err:
+                                        messagebox.showerror("Error", f"Error: {err}")
 
     def open_add_seq_questions(self):
         add_seq_questions_page = Security_questions_2()
