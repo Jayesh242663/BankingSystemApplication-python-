@@ -113,14 +113,6 @@ class AddDetails(customtkinter.CTk):
         else:
             return True
 
-    def phone_number_check(self, s):
-        if re.search(r'\W', s) and re.search(r'[^A-Za-z]',s):
-            if len(s) == 10:
-               return False
-        else:
-            return True
-
-
     def create_account(self):
         name = self.name_entry.get()
         email = self.email_entry.get()
