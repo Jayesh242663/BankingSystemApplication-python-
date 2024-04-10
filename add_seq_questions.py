@@ -78,7 +78,6 @@ class Security_questions_2(customtkinter.CTk):
             cursor.execute("INSERT INTO answer (id, user_answer) VALUES (NULL, %s)", (user_answer,))
 
             db.commit()
-            db.close()
             print("User answers saved in the database successfully.")
         except mysql.connector.Error as err:
             print("Error:", err)
