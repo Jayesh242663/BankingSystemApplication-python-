@@ -28,11 +28,14 @@ class Login(customtkinter.CTk):
         self.create_label =CTkLabel(master=self.frame1, text="Create your Account" , font=(fonts,20,"bold"),text_color=main_theme[1])
         self.create_label.place(x=50, y=45)
 
-        self.description_label = CTkLabel(master=self.frame1,text="If you don't have an account\n with us.\n\nTHEN CREATE ONE NOW.\n\nJOIN OUR COMMUNITY", font=(fonts,16),text_color="white")
+        self.description_label = CTkLabel(master=self.frame1,
+                                          text="If you don't have an account\n with us.\n\nTHEN CREATE ONE NOW.\n\nJOIN OUR COMMUNITY",
+                                          font=(fonts,16),
+                                          text_color="white")
         self.description_label.place(x=40, y=110)
 
-        self.signup_button = CTkButton(master=self.frame1, width=220, text="Signup", corner_radius=6, bg_color=main_theme[2],
-                                      fg_color=main_theme[1],command=self.open_signup_page)
+        self.signup_button = CTkButton(master=self.frame1, width=220, text="Signup", corner_radius=6,
+                                       bg_color=main_theme[2], fg_color=main_theme[1], command=self.open_signup_page)
         self.signup_button.place(x=50, y=250)
 
         self.frame = CTkFrame(master=self, width=320, height=360, fg_color=main_theme[1], corner_radius=16,
@@ -47,17 +50,20 @@ class Login(customtkinter.CTk):
                                          fg_color="#424769")
         self.account_no_label.place(x=50, y=110)
 
-        self.password_label = CTkEntry(master=self.frame, width=220, placeholder_text="Password", fg_color="#424769", show="*")
+        self.password_label = CTkEntry(master=self.frame, width=220, placeholder_text="Password", fg_color="#424769",
+                                       show="🔘")
         self.password_label.place(x=50, y=175)
 
 
-        self.login_button = CTkButton(master=self.frame, width=220, text='Login', corner_radius=6, bg_color=main_theme[1],
-                                      fg_color=main_theme[2], command=self.check_password)
+        self.login_button = CTkButton(master=self.frame, width=220, text='Login', corner_radius=6,
+                                      bg_color=main_theme[1], fg_color=main_theme[2], command=self.check_password)
         self.login_button.place(x=50, y=250)
 
-        self.label_wrong_accountnumber = CTkLabel(master=self.frame, text="Incorrect Account number", font=(fonts,16),text_color="red")
+        self.label_wrong_accountnumber = CTkLabel(master=self.frame, text="Incorrect Account number", font=(fonts,16),
+                                                  text_color="red")
 
-        self.forget_button = CTkButton(master=self.frame,text="Forgot password",font=(fonts,12),text_color="white",fg_color=main_theme[1],hover=(main_theme[1]),command=self.open_sq_page)
+        self.forget_button = CTkButton(master=self.frame,text="Forgot password",font=(fonts,12),text_color="white",
+                                       fg_color=main_theme[1], hover=(main_theme[1]), command=self.open_sq_page)
         self.forget_button.place(x=150, y=202)
 
     def login(self):
