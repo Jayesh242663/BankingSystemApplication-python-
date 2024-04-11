@@ -39,7 +39,7 @@ class Dashboard(customtkinter.CTk):
 
         # self.set_appearance_mode("dark-blue")
 
-        self.sidebar_frame = CTkFrame(master=self, fg_color=colors[1],  width=176, height=650, corner_radius=16,bg_color=colors[0])
+        self.sidebar_frame = CTkFrame(master=self, fg_color=colors[1],  width=176, height=650, corner_radius=16, bg_color=colors[0])
         self.sidebar_frame.pack_propagate(0)
         self.sidebar_frame.pack(fill="y", anchor="w", side="left")
 
@@ -110,24 +110,28 @@ class Dashboard(customtkinter.CTk):
             self.details_frame.destroy()
         elif self.window_count == 3:
             self.table_frame.destroy()
-        self.window_count = 1
-        self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
-        self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
-                                          text="Deposit\nTo Perfom any transaction.\nPlease fill the given details.",
-                                          font=("Arial Black", 20))
-        self.label_transaction.place(x=150, y=10)
+        if self.window_count == 1:
+            pass
+        else:
+            self.window_count = 1
+            self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+            self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Deposited",
-                                     font=("Arial BLack", 17))
-        self.amount_label.place(x=35, y=250)
+            self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+                                              text="Deposit\nTo Perfom any transaction.\nPlease fill the given details.",
+                                              font=("Arial Black", 20))
+            self.label_transaction.place(x=150, y=10)
 
-        self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
-        self.amount_entry.place(x=335, y=250)
+            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Deposited",
+                                         font=("Arial BLack", 17))
+            self.amount_label.place(x=35, y=250)
 
-        self.Deposit_button = CTkButton(master=self.transaction_frame, text="Deposit", command=self.add_money)
-        self.Deposit_button.place(x=225, y=350)
+            self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
+            self.amount_entry.place(x=335, y=250)
+
+            self.Deposit_button = CTkButton(master=self.transaction_frame, text="Deposit", command=self.add_money)
+            self.Deposit_button.place(x=225, y=350)
 
     def add_money(self):
         username = self.username
@@ -160,31 +164,35 @@ class Dashboard(customtkinter.CTk):
             self.details_frame.destroy()
         elif self.window_count == 3:
             self.table_frame.destroy()
-        self.window_count = 1
-        self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
-        self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
-                                          text="Transactions\nTo Perfom any transaction.\nPlease fill the given details.",
-                                          font=("Arial Black", 20))
-        self.label_transaction.place(x=150, y=10)
+        if self.window_count == 1:
+            pass
+        else:
+            self.window_count = 1
+            self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+            self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.sender_label = CTkLabel(master=self.transaction_frame, text="Enter the Account number\nof the receiver",
-                                     text_color=colors[2], font=("Arial Black", 17))
-        self.sender_label.place(x=30, y=130)
+            self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+                                              text="Transactions\nTo Perfom any transaction.\nPlease fill the given details.",
+                                              font=("Arial Black", 20))
+            self.label_transaction.place(x=150, y=10)
 
-        self.sender_entry = CTkEntry(master=self.transaction_frame, font=("Arial Black", 17), width=200)
-        self.sender_entry.place(x=335, y=140)
+            self.sender_label = CTkLabel(master=self.transaction_frame, text="Enter the Account number\nof the receiver",
+                                         text_color=colors[2], font=("Arial Black", 17))
+            self.sender_label.place(x=30, y=130)
 
-        self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Transferred",
-                                     font=("Arial BLack", 17))
-        self.amount_label.place(x=35, y=250)
+            self.sender_entry = CTkEntry(master=self.transaction_frame, font=("Arial Black", 17), width=200)
+            self.sender_entry.place(x=335, y=140)
 
-        self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
-        self.amount_entry.place(x=335, y=250)
+            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Transferred",
+                                         font=("Arial BLack", 17))
+            self.amount_label.place(x=35, y=250)
 
-        self.transfer_button = CTkButton(master=self.transaction_frame, text="Transfer", command=self.confirm_transaction)
-        self.transfer_button.place(x=225, y=350)
+            self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
+            self.amount_entry.place(x=335, y=250)
+
+            self.transfer_button = CTkButton(master=self.transaction_frame, text="Transfer", command=self.confirm_transaction)
+            self.transfer_button.place(x=225, y=350)
 
     def confirm_transaction(self):
         dt = datetime.now()
@@ -254,52 +262,56 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.destroy()
         elif self.window_count == 3:
             self.table_frame.destroy()
-        self.window_count = 2
-        self.details_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
-        self.details_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.name = self.result[1]
-        self.email = self.result[5]
-        self.acc_no = self.result[0]
-        self.dob = self.result[2]
-        self.gender = self.result[3]
-        self.phone_no = self.result[4]
-        self.address = self.result[6]
+        if self.window_count == 2:
+            pass
+        else:
+            self.window_count = 2
+            self.details_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+            self.details_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-        self.title_label = CTkLabel(master=self.details_frame, text="Personal Details of the Account holder",
-                                    text_color=colors[2], font=("Arial Black", 22))
-        self.title_label.grid(row=0, column=0, padx=70, pady=10)
+            self.name = self.result[1]
+            self.email = self.result[5]
+            self.acc_no = self.result[0]
+            self.dob = self.result[2]
+            self.gender = self.result[3]
+            self.phone_no = self.result[4]
+            self.address = self.result[6]
 
-        self.name_label = CTkLabel(master=self.details_frame, text=f"Name :- {self.name}", text_color=colors[2],
-                                   font=("Arial Black", 17))
-        self.name_label.grid(row=1, column=0, padx=70, pady=10)
+            self.title_label = CTkLabel(master=self.details_frame, text="Personal Details of the Account holder",
+                                        text_color=colors[2], font=("Arial Black", 22))
+            self.title_label.grid(row=0, column=0, padx=70, pady=10)
 
-        self.email_label = CTkLabel(master=self.details_frame, text=f"Email :- {self.email}",
-                                    text_color=colors[2],
-                                    font=("Arial Black", 17))
-        self.email_label.grid(row=2, column=0, padx=70, pady=10)
-
-        self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth :- {self.dob}", text_color=colors[2],
-                                  font=("Arial Black", 17))
-        self.dob_label.grid(row=3, column=0, padx=70, pady=10)
-
-        self.phone_no_label = CTkLabel(master=self.details_frame, text=f"Phone Number :- {self.phone_no}",
-                                       text_color=colors[2],
+            self.name_label = CTkLabel(master=self.details_frame, text=f"Name :- {self.name}", text_color=colors[2],
                                        font=("Arial Black", 17))
-        self.phone_no_label.grid(row=4, column=0, padx=70, pady=10)
+            self.name_label.grid(row=1, column=0, padx=70, pady=10)
 
-        self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender :- {self.gender}", text_color=colors[2],
-                                     font=("Arial Black", 17))
-        self.gender_label.grid(row=5, column=0, padx=70, pady=10)
+            self.email_label = CTkLabel(master=self.details_frame, text=f"Email :- {self.email}",
+                                        text_color=colors[2],
+                                        font=("Arial Black", 17))
+            self.email_label.grid(row=2, column=0, padx=70, pady=10)
 
-        self.account_number_label = CTkLabel(master=self.details_frame, text=f"Account Number :- {self.acc_no}",
-                                             text_color=colors[2],
-                                             font=("Arial Black", 17))
-        self.account_number_label.grid(row=6, column=0, padx=70, pady=10)
-
-        self.address_label = CTkLabel(master=self.details_frame, text=f"Address :- {self.address}", text_color=colors[2],
+            self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth :- {self.dob}", text_color=colors[2],
                                       font=("Arial Black", 17))
-        self.address_label.grid(row=7, column=0, padx=70, pady=10)
+            self.dob_label.grid(row=3, column=0, padx=70, pady=10)
+
+            self.phone_no_label = CTkLabel(master=self.details_frame, text=f"Phone Number :- {self.phone_no}",
+                                           text_color=colors[2],
+                                           font=("Arial Black", 17))
+            self.phone_no_label.grid(row=4, column=0, padx=70, pady=10)
+
+            self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender :- {self.gender}", text_color=colors[2],
+                                         font=("Arial Black", 17))
+            self.gender_label.grid(row=5, column=0, padx=70, pady=10)
+
+            self.account_number_label = CTkLabel(master=self.details_frame, text=f"Account Number :- {self.acc_no}",
+                                                 text_color=colors[2],
+                                                 font=("Arial Black", 17))
+            self.account_number_label.grid(row=6, column=0, padx=70, pady=10)
+
+            self.address_label = CTkLabel(master=self.details_frame, text=f"Address :- {self.address}", text_color=colors[2],
+                                          font=("Arial Black", 17))
+            self.address_label.grid(row=7, column=0, padx=70, pady=10)
 
     def logout(self):
         self.destroy()
@@ -312,28 +324,32 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.destroy()
         elif self.window_count == 2:
             self.details_frame.destroy()
-        try:
-            self.db = connection.Connection().get_connection()
-            self.cursor = self.db.cursor()
-            self.cursor.execute("select sender_accno,name,amount,date,time from transaction_history where accno = %s", (self.username,))
-            self.data = self.cursor.fetchall()
-            for result in self.data:
-                print(result)
-        except mysql.connector.Error as e:
-            print(e)
 
-        self.table_data = [
-            [("Account\nNumber", "Name", "Amount", "Date", "Time")]
-        ]
-        self.table_data.append(self.data)
-        self.table_data = list(itertools.chain(*self.table_data))
-        print(self.table_data)
-        self.table_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        self.table_frame.pack(expand=True, fill="both", padx=27, pady=21)
-        table = CTkTable(master=self.table_frame, values=self.table_data, colors=[colors[1], colors[2]], header_color=colors[1])
-        table.edit_row(0, text_color="#fff")
-        table.pack(expand=True)
-        self.window_count = 3
+        if self.window_count == 3:
+            pass
+        else:
+            try:
+                self.db = connection.Connection().get_connection()
+                self.cursor = self.db.cursor()
+                self.cursor.execute("select sender_accno,name,amount,date,time from transaction_history where accno = %s", (self.username,))
+                self.data = self.cursor.fetchall()
+                for result in self.data:
+                    print(result)
+            except mysql.connector.Error as e:
+                print(e)
+
+            self.table_data = [
+                [("Account\nNumber", "Name", "Amount", "Date", "Time")]
+            ]
+            self.table_data.append(self.data)
+            self.table_data = list(itertools.chain(*self.table_data))
+            print(self.table_data)
+            self.table_frame = CTkFrame(master=self.main_view, fg_color="transparent")
+            self.table_frame.pack(expand=True, fill="both", padx=27, pady=21)
+            table = CTkTable(master=self.table_frame, values=self.table_data, colors=[colors[1], colors[2]], header_color=colors[1])
+            table.edit_row(0, text_color="#fff")
+            table.pack(expand=True)
+            self.window_count = 3
 
 if __name__ == '__main__':
     dashboard = Dashboard()
