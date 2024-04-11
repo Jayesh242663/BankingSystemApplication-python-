@@ -19,6 +19,7 @@ fonts = 'Century Gothic'
 
 class Dashboard(customtkinter.CTk):
     def __init__(self, username, password):
+        # Create the objects dashboard
         super().__init__()
         self.title("Dashboard")
         self.username = username
