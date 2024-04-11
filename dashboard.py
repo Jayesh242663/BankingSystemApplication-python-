@@ -23,8 +23,8 @@ class Dashboard(customtkinter.CTk):
         self.password = password
         print(self.username)
         self.search_container = None
-        self.geometry("856x645")
-        self.resizable(0,0)
+        self.geometry("856x645+300+120")
+        self.resizable(0, 0)
 
         try:
             self.db = connection.Connection().get_connection()
@@ -103,6 +103,10 @@ class Dashboard(customtkinter.CTk):
         CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
         CTkLabel(master=self.balance_metric, text=f"{self.result[8]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
         self.window_count = 0
+        if self.window_count == 0:
+            self.transaction()
+        else:
+            pass
 
 
     def deposit(self):
@@ -111,10 +115,10 @@ class Dashboard(customtkinter.CTk):
         elif self.window_count == 3:
             self.table_frame.destroy()
 
-        if self.window_count == 1:
+        if self.window_count == 4:
             pass
         else:
-            self.window_count = 1
+            self.window_count = 4
             self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
             self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
