@@ -1,13 +1,15 @@
 import itertools
+from datetime import datetime
 from tkinter import messagebox
+
 import customtkinter
 import mysql
-from customtkinter import *
 from CTkTable import CTkTable
 from PIL import Image
+from customtkinter import *
+
 import connection
-from datetime import datetime
-import login
+
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#FF204E","#A0153E","#5D0E41"]
@@ -188,7 +190,8 @@ class Dashboard(customtkinter.CTk):
             self.sender_entry = CTkEntry(master=self.transaction_frame, font=("Arial Black", 17), width=200)
             self.sender_entry.place(x=335, y=140)
 
-            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Transferred",
+            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be "
+                                                                                                   "Transferred",
                                          font=("Arial BLack", 17))
             self.amount_label.place(x=35, y=250)
 
@@ -335,7 +338,8 @@ class Dashboard(customtkinter.CTk):
             try:
                 self.db = connection.Connection().get_connection()
                 self.cursor = self.db.cursor()
-                self.cursor.execute("select sender_accno,name,amount,date,time from transaction_history where accno = %s", (self.username,))
+                self.cursor.execute("select sender_accno,name,amount,date,time from transaction_history where accno = "
+                                    "%s", (self.username,))
                 self.data = self.cursor.fetchall()
                 for result in self.data:
                     print(result)
