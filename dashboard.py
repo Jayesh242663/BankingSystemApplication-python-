@@ -17,6 +17,7 @@ colors = ["#070F2B", "#1B1A55", "#535C91"]
 # colors = ["#9290C3", "#535C91", "#1B1A55"]
 fonts = 'Century Gothic'
 
+
 class Dashboard(customtkinter.CTk):
     def __init__(self, username, password):
         # Create the objects dashboard
@@ -32,7 +33,7 @@ class Dashboard(customtkinter.CTk):
         try:
             self.db = connection.Connection().get_connection()
             self.cursor = self.db.cursor()
-            self.cursor.execute("select * from acc_details where accno = %s",(self.username,))
+            self.cursor.execute("select * from acc_details where accno = %s", (self.username,))
             self.result = self.cursor.fetchall()
             self.result = self.result[0]
             for i in self.result:
@@ -42,75 +43,97 @@ class Dashboard(customtkinter.CTk):
 
         # self.set_appearance_mode("dark-blue")
 
-        self.sidebar_frame = CTkFrame(master=self, fg_color=colors[1],  width=176, height=650, corner_radius=16, bg_color=colors[0])
+        self.sidebar_frame = CTkFrame(master=self, fg_color=colors[1], width=176, height=650, corner_radius=16,
+                                      bg_color=colors[0])
         self.sidebar_frame.pack_propagate(0)
         self.sidebar_frame.pack(fill="y", anchor="w", side="left")
 
         self.person_img_data = Image.open("Images/person_icon.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
-        customtkinter.CTkButton(master=self.sidebar_frame, image=self.person_img,text_color=colors[2], text=f"Account\n{self.result[1]}", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="NW").pack(anchor="center", ipady=5, pady=(10, 0))
+        customtkinter.CTkButton(master=self.sidebar_frame, image=self.person_img, text_color=colors[2],
+                                text=f"Account\n{self.result[1]}", fg_color="transparent", font=("Arial Bold", 14),
+                                hover_color=colors[0], anchor="NW").pack(anchor="center", ipady=5, pady=(10, 0))
 
         self.analytics_img_data = Image.open("Images/analytics_icon.png")
         self.analytics_img = CTkImage(dark_image=self.analytics_img_data, light_image=self.analytics_img_data)
-        customtkinter.CTkButton(master=self.sidebar_frame, image=self.analytics_img,text_color=colors[2], text="Transactions", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",command=self.transaction).pack(anchor="center", ipady=5, pady=(60, 0))
+        customtkinter.CTkButton(master=self.sidebar_frame, image=self.analytics_img, text_color=colors[2],
+                                text="Transactions", fg_color="transparent", font=("Arial Bold", 14),
+                                hover_color=colors[0], anchor="w", command=self.transaction).pack(anchor="center",
+                                                                                                  ipady=5, pady=(60, 0))
 
         self.package_img_data = Image.open("Images/package_icon.png")
         self.package_img = CTkImage(dark_image=self.package_img_data, light_image=self.package_img_data)
 
-        CTkButton(master=self.sidebar_frame, image=self.package_img, text="Transaction\nHistory",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.history).pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, image=self.package_img, text="Transaction\nHistory", text_color=colors[2],
+                  fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",
+                  command=self.history).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.list_img_data = Image.open("Images/list_icon.png")
         self.list_img = CTkImage(dark_image=self.list_img_data, light_image=self.list_img_data)
-        CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.personal_details).pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, image=self.list_img, text="Personal\nDetails", text_color=colors[2],
+                  fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",
+                  command=self.personal_details).pack(anchor="center", ipady=5, pady=(16, 0))
 
-
-        CTkButton(master=self.sidebar_frame, text="Deposit",text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command= self.deposit).pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, text="Deposit", text_color=colors[2], fg_color="transparent",
+                  font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.deposit).pack(
+            anchor="center", ipady=5, pady=(16, 0))
 
         self.person_img_data = Image.open("Images/logout_1.png")
         self.person_img = CTkImage(dark_image=self.person_img_data, light_image=self.person_img_data)
-        CTkButton(master=self.sidebar_frame, image=self.person_img,text_color="#B53939", text="logout", fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="S", command=self.logout).pack(anchor="center", ipady=15, pady=(200, 0))
+        CTkButton(master=self.sidebar_frame, image=self.person_img, text_color="#B53939", text="logout",
+                  fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="S",
+                  command=self.logout).pack(anchor="center", ipady=15, pady=(200, 0))
 
-        self.main_view = CTkFrame(master=self, fg_color=colors[0],  width=680, height=650, corner_radius=0)
+        self.main_view = CTkFrame(master=self, fg_color=colors[0], width=680, height=650, corner_radius=0)
         self.main_view.pack_propagate(0)
         self.main_view.pack(side="left")
 
         self.title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        self.title_frame.pack(anchor="n", fill="x",  padx=27, pady=(29, 0))
+        self.title_frame.pack(anchor="n", fill="x", padx=27, pady=(29, 0))
 
-        CTkLabel(master=self.title_frame, text=f"Hey, Welcome {self.result[1]} ", font=("Arial Black", 25), text_color=colors[2]).pack(anchor="nw", side="left")
+        CTkLabel(master=self.title_frame, text=f"Hey, Welcome {self.result[1]} ", font=("Arial Black", 25),
+                 text_color=colors[2]).pack(anchor="nw", side="left")
 
         self.metrics_frame = CTkFrame(master=self.main_view, fg_color="transparent")
-        self.metrics_frame.pack(anchor="n", fill="x",  padx=27, pady=(36, 0))
+        self.metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
 
         self.account_metric = CTkFrame(master=self.metrics_frame, fg_color=colors[1], width=200, height=60)
         self.account_metric.grid_propagate(0)
         self.account_metric.pack(side="left")
 
         self.logitics_img_data = Image.open("Images/logistics_icon.png")
-        self.logistics_img = CTkImage(light_image=self.logitics_img_data, dark_image=self.logitics_img_data, size=(43, 43))
+        self.logistics_img = CTkImage(light_image=self.logitics_img_data, dark_image=self.logitics_img_data,
+                                      size=(43, 43))
 
-        CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), )
+        CTkLabel(master=self.account_metric, image=self.logistics_img, text="").grid(row=0, column=0, rowspan=2,
+                                                                                     padx=(12, 5), )
 
-        CTkLabel(master=self.account_metric, text="Account Type", text_color="white", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=self.account_metric, text=f"{self.result[7]}", text_color="#fff", font=("Arial Black", 17), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=self.account_metric, text="Account Type", text_color="white", font=("Arial Black", 15)).grid(
+            row=0, column=1, sticky="sw")
+        CTkLabel(master=self.account_metric, text=f"{self.result[7]}", text_color="#fff", font=("Arial Black", 17),
+                 justify="left").grid(row=1, column=1, sticky="nw", pady=(0, 10))
 
         self.balance_metric = CTkFrame(master=self.metrics_frame, fg_color=colors[1], width=200, height=60)
         self.balance_metric.grid_propagate(0)
-        self.balance_metric.pack(side="left",expand=True, anchor="center")
+        self.balance_metric.pack(side="left", expand=True, anchor="center")
 
         self.shipping_img_data = Image.open("Images/shipping_icon.png")
-        self.shipping_img = CTkImage(light_image=self.shipping_img_data, dark_image=self.shipping_img_data, size=(43, 43))
+        self.shipping_img = CTkImage(light_image=self.shipping_img_data, dark_image=self.shipping_img_data,
+                                     size=(43, 43))
 
-        CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2, padx=(12,5), )
+        CTkLabel(master=self.balance_metric, image=self.shipping_img, text="").grid(row=0, column=0, rowspan=2,
+                                                                                    padx=(12, 5), )
 
-        CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0, column=1, sticky="sw")
-        CTkLabel(master=self.balance_metric, text=f"{self.result[8]}", text_color="#fff",font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw", pady=(0,10))
+        CTkLabel(master=self.balance_metric, text="Balance", text_color="#fff", font=("Arial Black", 15)).grid(row=0,
+                                                                                                               column=1,
+                                                                                                               sticky="sw")
+        CTkLabel(master=self.balance_metric, text=f"{self.result[8]}", text_color="#fff", font=("Arial Black", 15),
+                 justify="left").grid(row=1, column=1, sticky="nw", pady=(0, 10))
         self.window_count = 0
         if self.window_count == 0:
             self.transaction()
         else:
             pass
-
 
     def deposit(self):
         if self.window_count == 2:
@@ -130,7 +153,8 @@ class Dashboard(customtkinter.CTk):
                                               font=("Arial Black", 20))
             self.label_transaction.place(x=150, y=10)
 
-            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2], text="Amount to be Deposited",
+            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+                                         text="Amount to be Deposited",
                                          font=("Arial BLack", 17))
             self.amount_label.place(x=35, y=250)
 
@@ -184,7 +208,8 @@ class Dashboard(customtkinter.CTk):
                                               font=("Arial Black", 20))
             self.label_transaction.place(x=150, y=10)
 
-            self.sender_label = CTkLabel(master=self.transaction_frame, text="Enter the Account number\nof the receiver",
+            self.sender_label = CTkLabel(master=self.transaction_frame,
+                                         text="Enter the Account number\nof the receiver",
                                          text_color=colors[2], font=("Arial Black", 17))
             self.sender_label.place(x=30, y=130)
 
@@ -199,7 +224,8 @@ class Dashboard(customtkinter.CTk):
             self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
             self.amount_entry.place(x=335, y=250)
 
-            self.transfer_button = CTkButton(master=self.transaction_frame, text="Transfer", command=self.confirm_transaction)
+            self.transfer_button = CTkButton(master=self.transaction_frame, text="Transfer",
+                                             command=self.confirm_transaction)
             self.transfer_button.place(x=225, y=350)
 
     def confirm_transaction(self):
@@ -217,7 +243,7 @@ class Dashboard(customtkinter.CTk):
                     user_data = (amount_of_sender[0])
                     amount_of_sender = str(user_data[8])
 
-                    self.amount_entry.delete(0,END)
+                    self.amount_entry.delete(0, END)
                     self.sender_entry.delete(0, END)
 
                     self.password_of_account = CTkInputDialog(
@@ -238,16 +264,18 @@ class Dashboard(customtkinter.CTk):
                         new_amount = float(amount_of_sender) + float(amt)
                         new_amount = str(new_amount)
 
-                        self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s", (new_amount, acc_no,))
+                        self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s",
+                                            (new_amount, acc_no,))
 
-                        messagebox.showinfo("Transaction","Transaction Successful")
+                        messagebox.showinfo("Transaction", "Transaction Successful")
                         add_amt = f"+{amt}"
                         minus_amt = f"-{amt}"
                         self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
                         trass = self.cursor.fetchall()
                         print(trass)
-                        self.cursor.execute("insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
-                                            (self.username,acc_no,user_data[1],minus_amt,date,time))
+                        self.cursor.execute(
+                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
+                            (self.username, acc_no, user_data[1], minus_amt, date, time))
                         self.cursor.execute(
                             "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
                             (acc_no, self.username, user_data[1], add_amt, date, time))
@@ -257,7 +285,7 @@ class Dashboard(customtkinter.CTk):
                                  font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw",
                                                                                 pady=(0, 10))
                     else:
-                       messagebox.showerror("Error","Your entered wrong password")
+                        messagebox.showerror("Error", "Your entered wrong password")
                 else:
                     messagebox.showerror("Error", "You have low balance")
             else:
@@ -299,7 +327,8 @@ class Dashboard(customtkinter.CTk):
                                         font=("Arial Black", 17))
             self.email_label.grid(row=2, column=0, padx=70, pady=10)
 
-            self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth :- {self.dob}", text_color=colors[2],
+            self.dob_label = CTkLabel(master=self.details_frame, text=f"Date Of Birth :- {self.dob}",
+                                      text_color=colors[2],
                                       font=("Arial Black", 17))
             self.dob_label.grid(row=3, column=0, padx=70, pady=10)
 
@@ -308,7 +337,8 @@ class Dashboard(customtkinter.CTk):
                                            font=("Arial Black", 17))
             self.phone_no_label.grid(row=4, column=0, padx=70, pady=10)
 
-            self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender :- {self.gender}", text_color=colors[2],
+            self.gender_label = CTkLabel(master=self.details_frame, text=f"Gender :- {self.gender}",
+                                         text_color=colors[2],
                                          font=("Arial Black", 17))
             self.gender_label.grid(row=5, column=0, padx=70, pady=10)
 
@@ -317,7 +347,8 @@ class Dashboard(customtkinter.CTk):
                                                  font=("Arial Black", 17))
             self.account_number_label.grid(row=6, column=0, padx=70, pady=10)
 
-            self.address_label = CTkLabel(master=self.details_frame, text=f"Address :- {self.address}", text_color=colors[2],
+            self.address_label = CTkLabel(master=self.details_frame, text=f"Address :- {self.address}",
+                                          text_color=colors[2],
                                           font=("Arial Black", 17))
             self.address_label.grid(row=7, column=0, padx=70, pady=10)
 
@@ -355,10 +386,12 @@ class Dashboard(customtkinter.CTk):
             print(self.table_data)
             self.table_frame = CTkFrame(master=self.main_view, fg_color="transparent")
             self.table_frame.pack(expand=True, fill="both", padx=27, pady=21)
-            table = CTkTable(master=self.table_frame, values=self.table_data, colors=[colors[1], colors[2]], header_color=colors[1])
+            table = CTkTable(master=self.table_frame, values=self.table_data, colors=[colors[1], colors[2]],
+                             header_color=colors[1])
             table.edit_row(0, text_color="#fff")
             table.pack(expand=True)
             self.window_count = 3
+
 
 if __name__ == '__main__':
     dashboard = Dashboard()
