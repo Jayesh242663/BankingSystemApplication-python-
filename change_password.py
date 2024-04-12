@@ -9,8 +9,9 @@ import connection
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
+
 class Change_password(customtkinter.CTk):
-    def __init__(self, account_number ):
+    def __init__(self, account_number):
         super().__init__()
         self.title("CHANGE PASSWORD")
         self.config(bg=colors[0])
@@ -22,16 +23,15 @@ class Change_password(customtkinter.CTk):
         self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
         self.label_1 = CTkLabel(master=self.frame, text="Change Your Password", font=(fonts, 20, "bold"),
-                                 text_color="#9290C3")
+                                text_color="#9290C3")
         self.label_1.place(x=50, y=45)
 
-
         self.password_entry = CTkEntry(master=self.frame, width=220, placeholder_text="New Password",
-                                        fg_color="#424769")
+                                       fg_color="#424769")
         self.password_entry.place(x=50, y=100)
 
         self.cnfpassword_entry = CTkEntry(master=self.frame, width=220, placeholder_text="Confirm Password",
-                                           fg_color="#424769")
+                                          fg_color="#424769")
         self.cnfpassword_entry.place(x=50, y=155)
 
         self.change_button = CTkButton(master=self.frame, width=220, text="CHANGE", corner_radius=6,
@@ -43,7 +43,7 @@ class Change_password(customtkinter.CTk):
         new_password = self.password_entry.get()
         confirm_password = self.cnfpassword_entry.get()
 
-        if not all(( new_password, confirm_password)):
+        if not all((new_password, confirm_password)):
             messagebox.showerror("Error", "Please fill in all fields.")
         elif new_password != confirm_password:
             messagebox.showerror("Error", "Passwords do not match.")
@@ -58,6 +58,7 @@ class Change_password(customtkinter.CTk):
                 self.destroy()
             except mysql.connector.Error as err:
                 messagebox.showerror("Error", f"Error: {err}")
+
 
 if __name__ == '__main__':
     App = Change_password()

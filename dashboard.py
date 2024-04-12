@@ -1,7 +1,6 @@
 import itertools
 from datetime import datetime
 from tkinter import messagebox
-
 import customtkinter
 import mysql
 from CTkTable import CTkTable
@@ -28,7 +27,7 @@ class Dashboard(customtkinter.CTk):
         print(self.username)
         self.search_container = None
         self.geometry("856x645+300+120")
-        self.resizable(0, 0)
+        self.resizable(False, False)
 
         try:
             self.db = connection.Connection().get_connection()
@@ -45,7 +44,7 @@ class Dashboard(customtkinter.CTk):
 
         self.sidebar_frame = CTkFrame(master=self, fg_color=colors[1], width=176, height=650, corner_radius=16,
                                       bg_color=colors[0])
-        self.sidebar_frame.pack_propagate(0)
+        self.sidebar_frame.pack_propagate(False)
         self.sidebar_frame.pack(fill="y", anchor="w", side="left")
 
         self.person_img_data = Image.open("Images/person_icon.png")
@@ -85,7 +84,7 @@ class Dashboard(customtkinter.CTk):
                   command=self.logout).pack(anchor="center", ipady=15, pady=(200, 0))
 
         self.main_view = CTkFrame(master=self, fg_color=colors[0], width=680, height=650, corner_radius=0)
-        self.main_view.pack_propagate(0)
+        self.main_view.pack_propagate(False)
         self.main_view.pack(side="left")
 
         self.title_frame = CTkFrame(master=self.main_view, fg_color="transparent")
@@ -98,7 +97,7 @@ class Dashboard(customtkinter.CTk):
         self.metrics_frame.pack(anchor="n", fill="x", padx=27, pady=(36, 0))
 
         self.account_metric = CTkFrame(master=self.metrics_frame, fg_color=colors[1], width=200, height=60)
-        self.account_metric.grid_propagate(0)
+        self.account_metric.grid_propagate(False)
         self.account_metric.pack(side="left")
 
         self.logitics_img_data = Image.open("Images/logistics_icon.png")
@@ -114,7 +113,7 @@ class Dashboard(customtkinter.CTk):
                  justify="left").grid(row=1, column=1, sticky="nw", pady=(0, 10))
 
         self.balance_metric = CTkFrame(master=self.metrics_frame, fg_color=colors[1], width=200, height=60)
-        self.balance_metric.grid_propagate(0)
+        self.balance_metric.grid_propagate(False)
         self.balance_metric.pack(side="left", expand=True, anchor="center")
 
         self.shipping_img_data = Image.open("Images/shipping_icon.png")
@@ -149,7 +148,8 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
             self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
-                                              text="Deposit\nTo Perfom any transaction.\nPlease fill the given details.",
+                                              text="Deposit\nTo Perform any transaction.\nPlease fill the given "
+                                                   "details.",
                                               font=("Arial Black", 20))
             self.label_transaction.place(x=150, y=10)
 
@@ -204,7 +204,8 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
 
             self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
-                                              text="Transactions\nTo Perfom any transaction.\nPlease fill the given details.",
+                                              text="Transactions\nTo Perfom any transaction.\nPlease fill the given "
+                                                   "details.",
                                               font=("Arial Black", 20))
             self.label_transaction.place(x=150, y=10)
 
@@ -247,7 +248,8 @@ class Dashboard(customtkinter.CTk):
                     self.sender_entry.delete(0, END)
 
                     self.password_of_account = CTkInputDialog(
-                        text=f"You are transfering money to {user_data[1]}\nAmount:{amt}\nPlease Enter your account password to confirm transfer",
+                        text=f"You are transfering money to {user_data[1]}\nAmount:{amt}\nPlease Enter your account "
+                             f"password to confirm transfer",
                         title="Confirm the transaction",
                         fg_color=colors[1],
                         button_fg_color=colors[0])
@@ -274,10 +276,12 @@ class Dashboard(customtkinter.CTk):
                         trass = self.cursor.fetchall()
                         print(trass)
                         self.cursor.execute(
-                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
+                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
+                            "%s,%s,%s,%s,%s,%s)",
                             (self.username, acc_no, user_data[1], minus_amt, date, time))
                         self.cursor.execute(
-                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values(%s,%s,%s,%s,%s,%s)",
+                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
+                            "%s,%s,%s,%s,%s,%s)",
                             (acc_no, self.username, user_data[1], add_amt, date, time))
                         print("history done")
                         self.db.commit()
