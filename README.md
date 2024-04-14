@@ -1,4 +1,5 @@
-**this is a blod text**
+**This is some bold text**
+
 Banking System Application (Python)
 
 Description:
