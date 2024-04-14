@@ -1,6 +1,6 @@
-## **Banking System Application (Python)**
+# **Banking System Application (Python)**
 
-# **Description:**
+## **Description:**
 
 The Banking System Application is a prototype designed to demonstrate basic banking functionalities. It offers features such as a dashboard view, money transferring, displaying personal details, and viewing transaction history.
 
