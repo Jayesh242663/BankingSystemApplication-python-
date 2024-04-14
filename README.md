@@ -1,49 +1,38 @@
-Simple Banking Application
+Banking System Application (Python)
+Description
+The Banking System Application is a prototype designed to demonstrate basic banking functionalities. It offers features such as a dashboard view, money transferring, displaying personal details, and viewing transaction history.
 
-INTRODUCTION
+Technologies Used
+Python: Programming language used for application logic.
+MySQL: Database management system for storing user data and transaction records.
+Installation
+To install and set up the Banking System Application locally, follow these steps:
 
-This is a simple banking application that allows users to perform basic banking operations such as money transfer, balance checking, and viewing transaction history. The application has a user-friendly dashboard for easy navigation.
+Clone the repository from GitHub.
+Ensure you have Python and MySQL installed on your system.
+Set up the database using the provided Mysql file named bankingsys.sql
+Run the application script.
+Usage:
+This prototype is not intended for direct usage. It serves as a demonstration of features and functionalities for educational purposes.
 
 Features:
-
-Money transfer
-Balance checking
+Dashboard view
+Money transferring
+Displaying personal details
 Transaction history
 
-Dashboard:
 
-The dashboard provides a user-friendly interface for users to access the features of the application. It displays the account balance and has options for money transfer, balance checking, and viewing transaction history.
+Contributing:
+Contributions to the project are welcome! To contribute:
 
-Money Transfer:
-
-Users can transfer money to other accounts using this feature. The user needs to provide the recipient's account number and the amount to be transferred.
-
-Balance Checking:
-
-Users can check their account balance using this feature. The current balance will be displayed on the dashboard.
-
-Transaction History:
-
-Users can view their transaction history using this feature. The transaction history includes the transaction type, account name, account number, transaction amount and the date and time of the transaction.
-
-Code:
-
-The code for this project is written in Python and is available in the repository. To compile and run the code, follow these steps:
-
-Clone the repository or download the source code:
-git clone https://github.com/Jayesh242663/BankingSystemApplication-python-.git
-
-Compile the code using a C compiler:
-gcc *.c -o BankingSystemApplication-python-
-
-Run the executable:
-./BankingSystemApplication-python-
-
+Fork the repository.
+Make your changes.
+Create a pull request.
 License
-This project is licensed under the MIT License.
+This project is licensed under the [insert license here]. See the LICENSE file for details.
+
+Contact Information
+For questions or feedback, please raise an issue on GitHub.
 
 Acknowledgments
-The implementation of this project was inspired by the need for a simple banking application to demonstrate basic programming concepts.
-
-Support
-If you need help or have any questions, please open an issue in the repository.
+Thanks to my collaborators for their contributions to this project.
