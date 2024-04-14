@@ -1,6 +1,4 @@
-**This is some bold text**
-
-Banking System Application (Python)
+**Banking System Application (Python)**
 
 Description:
 
