@@ -21,12 +21,18 @@ Run the application script.
 This prototype is not intended for direct usage. It serves as a demonstration of features and functionalities for educational purposes.
 
 ## Features:
+Creating New Account
 Dashboard view
 Money transferring
 Displaying personal details
 Transaction history
+Change Password
 
 ## ScreenShots:
+
+### Login Window:
+![image](https://github.com/Jayesh242663/BankingSystemApplication-python-/assets/87438326/967124c0-4e42-4669-8abe-503a7a2696c4)
+
 ### DASHBOARD:
 ![image](https://github.com/Jayesh242663/BankingSystemApplication-python-/assets/87438326/618a7240-27c8-4c44-9d06-c3c5d06f84b9)
 
