@@ -2,7 +2,7 @@
 
 ## **Description:**
 
-The Banking System Application is a prototype designed to demonstrate basic banking functionalities. It offers features such as a dashboard view, money transferring, displaying personal details, and viewing transaction history.
+The Banking System Application is a prototype designed to demonstrate basic banking functionalities. It offers features such as a creating new account, login using account number and password, changing password if forgotten dashboard view, money transferring, displaying personal details, and viewing transaction history.
 
 ## Technologies Used:
 
@@ -27,6 +27,7 @@ Displaying personal details
 Transaction history
 
 ## ScreenShots:
+### DASHBOARD:
 ![image](https://github.com/Jayesh242663/BankingSystemApplication-python-/assets/87438326/618a7240-27c8-4c44-9d06-c3c5d06f84b9)
 
 
