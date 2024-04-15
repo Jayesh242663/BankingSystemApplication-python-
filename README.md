@@ -7,6 +7,7 @@ The Banking System Application is a prototype designed to demonstrate basic bank
 ## Technologies Used:
 
 Python: Programming language used for application logic.
+
 MySQL: Database management system for storing user data and transaction records.
 
 ## Installation:
