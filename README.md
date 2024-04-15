@@ -26,6 +26,9 @@ Money transferring
 Displaying personal details
 Transaction history
 
+## ScreenShots:
+![image](https://github.com/Jayesh242663/BankingSystemApplication-python-/assets/87438326/618a7240-27c8-4c44-9d06-c3c5d06f84b9)
+
 
 ## Contributing:
 Contributions to the project are welcome! To contribute:
