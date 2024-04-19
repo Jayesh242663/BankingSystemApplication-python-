@@ -76,60 +76,61 @@ class Login(customtkinter.CTk):
         password = self.password_label.get()
         if not accno.isdigit():
             messagebox.showerror("ERROR", "Please enter the correct Account Number")
-        try:
-            db = connection.Connection().get_connection()
-            cursor = db.cursor()
+        else:
+            try:
+                db = connection.Connection().get_connection()
+                cursor = db.cursor()
 
-            sql = "INSERT INTO login (accno, password) VALUES (%s, %s)"
-            val = (accno, password)
-            cursor.execute(sql, val)
-            db.commit()
+                sql = "INSERT INTO login (accno, password) VALUES (%s, %s)"
+                val = (accno, password)
+                cursor.execute(sql, val)
+                db.commit()
 
-            messagebox.showinfo("Success", "Account created successfully.")
-        except mysql.connector.Error as e:
-            messagebox.showerror("Error", f"Error: {e}")
+                messagebox.showinfo("Success", "Account created successfully.")
+            except mysql.connector.Error as e:
+                messagebox.showerror("Error", f"Error: {e}")
 
-    # def signup(self):
-    #     self.destroy()
-    #     signup_window = adddetails.AddDetails()
-    #
-    #     self.signup_button.after(1000,adddetails.AddDetails.mainloop(self))
+        # def signup(self):
+        #     self.destroy()
+        #     signup_window = adddetails.AddDetails()
+        #
+        #     self.signup_button.after(1000,adddetails.AddDetails.mainloop(self))
 
-    def check_password(self):
-        username = self.account_no_label.get()
-        password = self.password_label.get()
+        def check_password(self):
+            username = self.account_no_label.get()
+            password = self.password_label.get()
 
-        try:
-            if username.isdigit() is not True:
-                messagebox.showerror("Error", "Account Number should be a number")
-            db = connection.Connection().get_connection()
+            try:
+                if username.isdigit() is not True:
+                    messagebox.showerror("Error", "Account Number should be a number")
+                db = connection.Connection().get_connection()
 
-            cursor = db.cursor()
+                cursor = db.cursor()
 
-            cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
-            global user_record
+                cursor.execute("SELECT password FROM login WHERE accno = %s", (username,))
+                global user_record
 
-            user_record = cursor.fetchone()
+                user_record = cursor.fetchone()
 
-            if user_record:
-                db_password = user_record[0]
+                if user_record:
+                    db_password = user_record[0]
 
-                if password == db_password:
-                    messagebox.showinfo("Success", "Username and password match. Logging in...")
-                    self.destroy()
-                    import dashboard
-                    dashboard = dashboard.Dashboard(username=username, password=password)
-                    dashboard.mainloop()
+                    if password == db_password:
+                        messagebox.showinfo("Success", "Username and password match. Logging in...")
+                        self.destroy()
+                        import dashboard
+                        dashboard = dashboard.Dashboard(username=username, password=password)
+                        dashboard.mainloop()
 
+                    else:
+                        messagebox.showerror("Error", "Incorrect password. Please try again.")
                 else:
-                    messagebox.showerror("Error", "Incorrect password. Please try again.")
-            else:
-                messagebox.showerror("Error", "User does not exist. Please check your username.")
+                    messagebox.showerror("Error", "User does not exist. Please check your username.")
 
-            db.close()
-            return user_record
-        except mysql.connector.Error as e:
-            messagebox.showerror("Error", f"Error: {e}")
+                db.close()
+                return user_record
+            except mysql.connector.Error as e:
+                messagebox.showerror("Error", f"Error: {e}")
 
     def open_signup_page(self):
         self.destroy()
