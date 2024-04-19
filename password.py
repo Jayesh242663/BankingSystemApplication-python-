@@ -61,7 +61,6 @@ class Password(customtkinter.CTk):
                 cursor = db.cursor()
                 cursor.execute("INSERT INTO login (password) VALUES (%s)", (password1,))
                 db.commit()
-                db.close()
                 messagebox.showinfo("Success", "Your password has been set.")
             except mysql.connector.Error as err:
                 messagebox.showerror("Database Error", f"Error: {err}")

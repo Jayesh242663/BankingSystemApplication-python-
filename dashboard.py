@@ -184,7 +184,6 @@ class Dashboard(customtkinter.CTk):
             cursor.execute(update_query, (new_balance, self.username))
             db.commit()
             cursor.close()
-            db.close()
 
             print("Deposit successful. New balance:", new_balance)
         else:
