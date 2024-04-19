@@ -74,7 +74,8 @@ class Login(customtkinter.CTk):
         accno = self.account_no_label.get()
         global password
         password = self.password_label.get()
-
+        if not accno.isdigit():
+            messagebox.showerror("ERROR", "Please enter the correct Account Number")
         try:
             db = connection.Connection().get_connection()
             cursor = db.cursor()
