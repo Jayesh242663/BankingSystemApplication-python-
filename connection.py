@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class Connection:
     _instance = None
 
@@ -16,10 +17,11 @@ class Connection:
                 )
             return cls._instance
         except mysql.connector.Error as e:
-            print("Connection failed",e)
+            print("Connection failed", e)
 
     def get_connection(self):
         return self.cnx
+
 
 if __name__ == "__main__":
     connection = Connection()

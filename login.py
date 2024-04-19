@@ -66,7 +66,7 @@ class Login(customtkinter.CTk):
                                                   text_color="red")
 
         self.forget_button = CTkButton(master=self.frame, text="Forgot password", font=(fonts, 12), text_color="white",
-                                       fg_color=main_theme[1], hover=(main_theme[1]), command=self.open_sq_page)
+                                       fg_color=main_theme[1], hover_color=(main_theme[1]), command=self.open_sq_page)
         self.forget_button.place(x=150, y=202)
 
     def login(self):
