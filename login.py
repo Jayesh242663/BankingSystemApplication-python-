@@ -55,7 +55,7 @@ class Login(customtkinter.CTk):
         self.account_no_label.place(x=50, y=110)
 
         self.password_label = CTkEntry(master=self.frame, width=220, placeholder_text="Password", fg_color="#424769",
-                                       show="🔘")
+                                       show="●")
         self.password_label.place(x=50, y=175)
 
         self.login_button = CTkButton(master=self.frame, width=220, text='Login', corner_radius=6,
