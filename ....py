@@ -1,5 +1,6 @@
 import connection
 
+
 def add_money():
     username = 5
     db = connection.Connection().get_connection()
@@ -10,5 +11,6 @@ def add_money():
     cursor.execute(query, (username,))
     result = cursor.fetchone()
     print(result)
+
 
 add_money()

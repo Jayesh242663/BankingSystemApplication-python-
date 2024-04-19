@@ -15,6 +15,25 @@ colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
 
+def has_special_char(s):
+    if re.search(r'\W', s) or re.search(r'\d', s):
+        return True
+    else:
+        return False
+
+
+def email_check(s):
+    if re.search(r'@', s) and re.search(r'.com', s):
+        return False
+    else:
+        return True
+
+
+def open_add_seq_questions():
+    add_seq_questions_page = Security_questions_2()
+    add_seq_questions_page.mainloop()
+
+
 class AddDetails(customtkinter.CTk):
     def __init__(self):
         global date_list
@@ -82,7 +101,8 @@ class AddDetails(customtkinter.CTk):
         self.male = CTkRadioButton(master=self.frame, text="Male", value=1, variable=self.radio_var, font=(fonts, 17))
         self.male.place(x=500, y=135)
 
-        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=self.radio_var, font=(fonts, 17))
+        self.female = CTkRadioButton(master=self.frame, text="Female", value=2, variable=self.radio_var,
+                                     font=(fonts, 17))
         self.female.place(x=580, y=135)
 
         self.account_type = CTkComboBox(master=self.frame,
@@ -98,20 +118,8 @@ class AddDetails(customtkinter.CTk):
         self.sq_label = CTkLabel(master=self.frame, text="Security Questions:", font=(fonts, 20))
         self.sq_label.place(x=400, y=250)
 
-        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS",command=self.open_add_seq_questions )
+        self.sq_button = CTkButton(master=self.frame, text="SECURITY QUESTIONS", command=open_add_seq_questions)
         self.sq_button.place(x=600, y=255)
-
-    def has_special_char(self,s):
-        if re.search(r'\W', s) or re.search(r'\d',s) :
-            return True
-        else:
-            return False
-
-    def email_check(self,s):
-        if re.search(r'@', s) and re.search(r'.com',s) :
-            return False
-        else:
-            return True
 
     # def phone_number_check(self, s):
     #     if re.search(r'\W', s) and re.search(r'[^A-Za-z]',s):
@@ -119,7 +127,6 @@ class AddDetails(customtkinter.CTk):
     #            return False
     #     else:
     #         return True
-
 
     def create_account(self):
         name = self.name_entry.get()
@@ -136,10 +143,10 @@ class AddDetails(customtkinter.CTk):
         if name == "" or email == "" or phoneno == "" or address == "":
             messagebox.showerror("ERROR", "Please fill all the information listed")
         else:
-            if self.has_special_char(name):
+            if has_special_char(name):
                 messagebox.showerror("Incorrect NAME", "Name should not have any NUMBERS/SYMBOLS/SPACES")
             else:
-                if self.email_check(email):
+                if email_check(email):
                     messagebox.showerror("Incorrect EMAIL", "Please check your EMAIL ADDRESS")
                 else:
                     if day.isdigit() and month.isdigit() and year.isdigit() is not True:
@@ -151,9 +158,10 @@ class AddDetails(customtkinter.CTk):
                             messagebox.showerror("Age Error", "Minors can't open an Account")
                         else:
                             if phoneno.isdigit() is not True:
-                               messagebox.showerror("Incorrect Phone Number", "Please recheck your PHONE NUMBER")
+                                messagebox.showerror("Incorrect Phone Number", "Please recheck your PHONE NUMBER")
                             elif len(phoneno) != 10:
-                                messagebox.showerror("Incorrect Phone Number", "Your phone number should be of 10 digits")
+                                messagebox.showerror("Incorrect Phone Number",
+                                                     "Your phone number should be of 10 digits")
                             else:
                                 balance = 500
                                 if gender == 1:
@@ -166,7 +174,8 @@ class AddDetails(customtkinter.CTk):
                                     try:
                                         db = connection.Connection().get_connection()
                                         cursor = db.cursor()
-                                        sql = "INSERT INTO acc_details (name, dob, gender, address, phoneno, acctype, email, balance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+                                        sql = ("INSERT INTO acc_details (name, dob, gender, address, phoneno, acctype, "
+                                               "email, balance) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
 
                                         data = (name, dob, gender, address, phoneno, account_type, email, balance)
 
@@ -175,7 +184,7 @@ class AddDetails(customtkinter.CTk):
                                         account_no = cursor.lastrowid
                                         messagebox.showinfo("Success", "Account created successfully.")
                                         time.sleep(2)
-                                        messagebox._show("Success", f"Your Account number:{account_no}")
+                                        messagebox.showinfo("Success", f"Your Account number:{account_no}")
                                         self.destroy()
                                         from password import Password
                                         password_page = Password()
@@ -184,9 +193,6 @@ class AddDetails(customtkinter.CTk):
                                     except connector.Error as err:
                                         messagebox.showerror("Error", f"Error: {err}")
 
-    def open_add_seq_questions(self):
-        add_seq_questions_page = Security_questions_2()
-        add_seq_questions_page.mainloop()
 
 if __name__ == '__main__':
     details = AddDetails()

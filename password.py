@@ -8,8 +8,7 @@ import connection
 from adddetails import AddDetails
 from login import Login
 
-
-colors =["#070F2B","#1B1A55","#535C91"]
+colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
 
@@ -25,19 +24,19 @@ class Password(customtkinter.CTk):
         self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
         self.label_1 = CTkLabel(master=self.frame, text="Set Your Password", font=(fonts, 20, "bold"),
-                              text_color="#9290C3")
+                                text_color="#9290C3")
         self.label_1.place(x=50, y=45)
 
         self.password_entry = CTkEntry(master=self.frame, width=220, placeholder_text="PASSWORD",
-                                         fg_color="#424769")
+                                       fg_color="#424769")
         self.password_entry.place(x=50, y=110)
 
-        self.cnfpassword_entry = CTkEntry(master=self.frame, width=220, placeholder_text="CONFIRM PASSWORD", fg_color="#424769")
+        self.cnfpassword_entry = CTkEntry(master=self.frame, width=220, placeholder_text="CONFIRM PASSWORD",
+                                          fg_color="#424769")
         self.cnfpassword_entry.place(x=50, y=175)
 
-
         self.next = CTkButton(master=self.frame, width=120, text='Next', corner_radius=6, bg_color=colors[1],
-                                      fg_color=colors[2], command=self.open_login)
+                              fg_color=colors[2], command=self.open_login)
         self.next.place(x=165, y=300)
 
         self.back = CTkButton(master=self.frame, width=120, text='Back', corner_radius=6, bg_color=colors[1],
@@ -45,7 +44,7 @@ class Password(customtkinter.CTk):
         self.back.place(x=30, y=300)
 
         self.create_button = CTkButton(master=self.frame, width=220, text="CREATE", corner_radius=6, bg_color=colors[1],
-                                      fg_color=colors[2],command=self.create_password)
+                                       fg_color=colors[2], command=self.create_password)
         self.create_button.place(x=50, y=250)
 
     def create_password(self):
@@ -62,7 +61,6 @@ class Password(customtkinter.CTk):
                 cursor = db.cursor()
                 cursor.execute("INSERT INTO login (password) VALUES (%s)", (password1,))
                 db.commit()
-                db.close()
                 messagebox.showinfo("Success", "Your password has been set.")
             except mysql.connector.Error as err:
                 messagebox.showerror("Database Error", f"Error: {err}")
@@ -78,6 +76,7 @@ class Password(customtkinter.CTk):
         self.destroy()
         login_page = Login()
         login_page.mainloop()
+
 
 if __name__ == "__main__":
     app = Password()
