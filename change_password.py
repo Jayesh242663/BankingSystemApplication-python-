@@ -53,7 +53,6 @@ class Change_password(customtkinter.CTk):
                 cursor = db.cursor()
                 cursor.execute("UPDATE login SET password = %s WHERE accno = %s", (new_password, account_number))
                 db.commit()
-                db.close()
                 messagebox.showinfo("Success", "Password changed successfully.")
                 self.destroy()
             except mysql.connector.Error as err:

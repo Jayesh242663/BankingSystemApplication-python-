@@ -12,6 +12,7 @@ from change_password import Change_password
 colors = ["#070F2B", "#1B1A55", "#535C91"]
 fonts = 'Century Gothic'
 
+
 class Security_questions(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -33,7 +34,7 @@ class Security_questions(customtkinter.CTk):
     def create_question_widgets(self):
         self.answers = {}
         self.check_label = CTkLabel(master=self, text="FILL SECURITY QUESTIONS FOR YOUR VERIFICATION",
-                                    font=(fonts, 18))
+                                    font=(fonts, 18),bg_color=colors[0])
         self.check_label.place(x=50, y=10)
 
         self.frame = CTkFrame(master=self, width=1200, height=580, fg_color=colors[2], corner_radius=16,
@@ -41,7 +42,8 @@ class Security_questions(customtkinter.CTk):
         self.frame.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
         for i, question_data in enumerate(self.questions):
-            question_label = CTkLabel(master=self.frame, text=question_data["question"], font=(fonts, 12), wraplength=500)
+            question_label = CTkLabel(master=self.frame, text=question_data["question"], font=(fonts, 12),
+                                      wraplength=500)
             question_label.grid(row=i, column=0, padx=10, pady=10, sticky="w")
 
             answer_entry = CTkEntry(master=self.frame, font=(fonts, 12))
@@ -93,7 +95,7 @@ class Security_questions(customtkinter.CTk):
                 user_answers = json.loads(result[0])
                 if user_answers == user_answers:
                     print("User answers match the stored answers.")
-                    change_password_page = Change_password(account_number = account_number)
+                    change_password_page = Change_password(account_number=account_number)
                     change_password_page.mainloop()
 
                 else:
