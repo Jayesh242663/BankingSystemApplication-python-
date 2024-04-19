@@ -55,7 +55,7 @@ class Login(customtkinter.CTk):
         self.account_no_label.place(x=50, y=110)
 
         self.password_label = CTkEntry(master=self.frame, width=220, placeholder_text="Password", fg_color="#424769",
-                                       show="*")
+                                       show="●")
         self.password_label.place(x=50, y=175)
 
         self.login_button = CTkButton(master=self.frame, width=220, text='Login', corner_radius=6,
@@ -66,7 +66,7 @@ class Login(customtkinter.CTk):
                                                   text_color="red")
 
         self.forget_button = CTkButton(master=self.frame, text="Forgot password", font=(fonts, 12), text_color="white",
-                                       fg_color=main_theme[1], hover_color=(main_theme[1]), command=self.open_sq_page)
+                                       fg_color=main_theme[1], hover=(main_theme[1]), command=self.open_sq_page)
         self.forget_button.place(x=150, y=202)
 
     def login(self):
@@ -125,6 +125,7 @@ class Login(customtkinter.CTk):
             else:
                 messagebox.showerror("Error", "User does not exist. Please check your username.")
 
+            db.close()
             return user_record
         except mysql.connector.Error as e:
             messagebox.showerror("Error", f"Error: {e}")
