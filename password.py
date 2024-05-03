@@ -53,8 +53,12 @@ class Password(customtkinter.CTk):
 
         if not password1 or not password2:
             messagebox.showerror("Error", "Please enter both password and confirm password.")
+        elif len(password1) < 4:
+            messagebox.showerror("Error", "Password should be more or equal than 4 digits")
         elif password1 != password2:
             messagebox.showerror("Error", "Passwords do not match.")
+        elif not password1.isdigit() or not password2.isdigit():
+            messagebox.showerror("Error", "Password should not consist of any Alphabet or symbols")
         else:
             try:
                 db = connection.Connection().get_connection()
