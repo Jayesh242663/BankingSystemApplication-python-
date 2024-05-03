@@ -62,20 +62,21 @@ class Dashboard(customtkinter.CTk):
                                                                                                   ipady=5, pady=(60, 0))
 
         self.transaction_history_img_data = Image.open("Images/package_icon.png")
-        self.transaction_history_img = CTkImage(dark_image=self.transaction_history_img_data, light_image=self.transaction_history_img_data)
+        self.transaction_history_img = CTkImage(dark_image=self.transaction_history_img_data,
+                                                light_image=self.transaction_history_img_data)
 
-        CTkButton(master=self.sidebar_frame, image=self.transaction_history_img, text="Transaction\nHistory", text_color=colors[2],
-                  fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",
-                  command=self.history).pack(anchor="center", ipady=5, pady=(16, 0))
+        CTkButton(master=self.sidebar_frame, image=self.transaction_history_img, text="Transaction\nHistory",
+                  text_color=colors[2], fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0],
+                  anchor="w", command=self.history).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.personal_detail_data = Image.open("Images/list_icon.png")
         self.personal_detail = CTkImage(dark_image=self.personal_detail_data, light_image=self.personal_detail_data)
-        CTkButton(master=self.sidebar_frame, image=self.personal_details, text="Personal\nDetails", text_color=colors[2],
+        CTkButton(master=self.sidebar_frame, image=self.personal_detail, text="Personal\nDetails", text_color=colors[2],
                   fg_color="transparent", font=("Arial Bold", 14), hover_color=colors[0], anchor="w",
                   command=self.personal_details).pack(anchor="center", ipady=5, pady=(16, 0))
 
         self.deposit_img_data = Image.open("Images/deposit (1).png")
-        self.deposit_img = CTkLabel(dark_image=self.deposit_img_data, light_image=self.deposit_img_data)
+        self.deposit_img = CTkImage(dark_image=self.deposit_img_data, light_image=self.deposit_img_data)
         CTkButton(master=self.sidebar_frame, image=self.deposit_img, text="Deposit", text_color=colors[2],
                   fg_color="transparent",
                   font=("Arial Bold", 14), hover_color=colors[0], anchor="w", command=self.deposit).pack(
@@ -150,8 +151,8 @@ class Dashboard(customtkinter.CTk):
             pass
         else:
             self.window_count = 4
-            self.transaction_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
-            self.transaction_frame.pack(fill="x", pady=(45, 0), padx=27)
+            self.deposit_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
+            self.deposit_frame.pack(fill="x", pady=(45, 0), padx=27)
 
             self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
                                               text="Deposit\nTo Perform any transaction.\nPlease fill the given "
@@ -200,6 +201,8 @@ class Dashboard(customtkinter.CTk):
             self.details_frame.destroy()
         elif self.window_count == 3:
             self.table_frame.destroy()
+        elif self.window_count == 4:
+            self.deposit_frame.destroy()
 
         if self.window_count == 1:
             pass
@@ -307,6 +310,8 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.destroy()
         elif self.window_count == 3:
             self.table_frame.destroy()
+        elif self.window_count == 4:
+            self.deposit_frame.destroy()
 
         if self.window_count == 2:
             pass
@@ -372,6 +377,8 @@ class Dashboard(customtkinter.CTk):
             self.transaction_frame.destroy()
         elif self.window_count == 2:
             self.details_frame.destroy()
+        elif self.window_count == 4:
+            self.deposit_frame.destroy()
 
         if self.window_count == 3:
             pass
