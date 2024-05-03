@@ -42,7 +42,7 @@ CREATE TABLE `acc_details` (
 
 LOCK TABLES `acc_details` WRITE;
 /*!40000 ALTER TABLE `acc_details` DISABLE KEYS */;
-INSERT INTO `acc_details` VALUES (1,'Varad','0003-12-24','Male','99648763215','abc@gmail.com','Dombivili','Savings','78129.63'),(2,'Varad','0003-12-24','Male','8745675432','abc@gmail.com','Dombivili','Current','29636.85'),(3,'Jayesh','0003-12-24','Male','7906467987','abc@gmail.com','Dombivili','Current',NULL),(4,'asd','1960-02-11','male','asd','asd','asd','Current Account',NULL),(5,'Mahesh','1965-02-15','male','9869567455','xyz@gmail.com','Kopar','Current Account','10922.58'),(6,'Vishnu','1969-06-21','male','446465','vishnu123@gmail.com','adasds','Current Account','5012.0'),(7,'rajesh','1971-08-21','male','464545646','rajesh12@gmail.com','karjat','Personal Account','500'),(8,'priti','1965-07-16','male','897987978','priti123@gmail.com','karjat','Personal Account','500'),(9,'harsh','2019-07-21','male','79879879','harsh123@gmail.com','kalyan','Saving Account','376.68'),(10,'SUREKHA','1966-04-17','male','7845128956','surekha123@gmail.com','kalyan','Current Account','500'),(11,'chetan','1991-05-15','male','2356897412','c@gmail.com','745698mjjiop;','Current Account','500');
+INSERT INTO `acc_details` VALUES (1,'Varad','0003-12-24','Male','99648763215','abc@gmail.com','Dombivili','Savings','78062.63'),(2,'Manasvi','0003-12-24','Male','8745675432','abc@gmail.com','Dombivili','Current','29636.85'),(3,'Jayesh','0003-12-24','Male','7906467987','abc@gmail.com','Dombivili','Current','4500'),(4,'yuvati','1960-02-11','female','4587124556','yuvati@gmail.com','vashi','Current ','4600.0'),(5,'Mahesh','1965-02-15','male','9869567455','xyz@gmail.com','Kopar','Current ','11057.58'),(6,'Vishnu','1969-06-21','male','7851245786','vishnu123@gmail.com','adasds','Current ','5012.0'),(7,'rajesh','1971-08-21','male','4645456464','rajesh12@gmail.com','karjat','Personal ','500'),(8,'priti','1965-07-16','male','8979879781','priti123@gmail.com','karjat','Personal ','500'),(9,'harsh','2019-07-21','male','7987987945','harsh123@gmail.com','kalyan','Saving ','376.68'),(10,'SUREKHA','1966-04-17','male','7845128956','surekha123@gmail.com','kalyan','Current ','500'),(11,'chetan','1991-05-15','male','2356897412','c@gmail.com','745698mjjiop;','Current ','377.0');
 /*!40000 ALTER TABLE `acc_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,7 +57,7 @@ CREATE TABLE `answer` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_answer` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +66,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,'{\"1\": \"Orange\", \"2\": \"Dombivili\", \"3\": \"1\"}'),(2,'{\"1\": \"Yellow\", \"2\": \"France\", \"3\": \"2\"}'),(3,'{\"1\": \"Red\", \"2\": \"Dubai\", \"3\": \"3\"}'),(4,'{\"1\": \"hot red\", \"2\": \"paris\", \"3\": \"45\"}'),(5,'{\"1\": \"yellow\", \"2\": \"paris\", \"3\": \"785\"}'),(6,'{\"1\": \"hot pink\", \"2\": \"new york\", \"3\": \"4521\"}'),(7,'{\"1\": \"pink\", \"2\": \"karjat\", \"3\": \"4512\"}'),(8,'{\"1\": \"dasdasda\", \"2\": \"dasdasd\", \"3\": \"dasdas\"}'),(9,'{\"1\": \"blue\", \"2\": \"kalyan\", \"3\": \"412\"}'),(10,'{\"1\": \"red\", \"2\": \"vbj\", \"3\": \"5\"}');
+INSERT INTO `answer` VALUES (1,'{\"1\": \"Orange\", \"2\": \"Dombivili\", \"3\": \"1\"}'),(2,'{\"1\": \"Yellow\", \"2\": \"France\", \"3\": \"2\"}'),(3,'{\"1\": \"Red\", \"2\": \"Dubai\", \"3\": \"3\"}'),(4,'{\"1\": \"hot red\", \"2\": \"paris\", \"3\": \"45\"}'),(5,'{\"1\": \"yellow\", \"2\": \"paris\", \"3\": \"785\"}'),(6,'{\"1\": \"hot pink\", \"2\": \"new york\", \"3\": \"4521\"}'),(7,'{\"1\": \"pink\", \"2\": \"karjat\", \"3\": \"4512\"}'),(8,'{\"1\": \"blue\", \"2\": \"karjat\", \"3\": \"1223\"}'),(9,'{\"1\": \"blue\", \"2\": \"kalyan\", \"3\": \"412\"}'),(10,'{\"1\": \"red\", \"2\": \"matheran\", \"3\": \"5\"}'),(11,'{\"1\": \"yellow\", \"2\": \"kopar\", \"3\": \"78\"}');
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES (1,'a123'),(2,'123'),(3,'abc'),(5,'a'),(6,'cvb'),(7,'7845'),(8,'4578'),(9,'dada'),(10,'4555'),(11,'5689');
+INSERT INTO `login` VALUES (1,'1234'),(2,'4501'),(3,'7845'),(5,'1245'),(6,'3265'),(7,'7845'),(8,'4578'),(9,'1232'),(10,'1245'),(11,'1245');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `transaction_history` (
   `time` time DEFAULT NULL,
   `transaction_id` int NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`transaction_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +148,7 @@ CREATE TABLE `transaction_history` (
 
 LOCK TABLES `transaction_history` WRITE;
 /*!40000 ALTER TABLE `transaction_history` DISABLE KEYS */;
-INSERT INTO `transaction_history` VALUES (1,2,'Varad','-20.5','2024-03-30','18:45:03',4),(1,2,'Varad','-25.22','2024-03-30','18:47:36',5),(2,1,'Varad','+25.22','2024-03-30','18:47:36',6),(1,2,'Varad','-45.25','2024-03-30','18:49:54',7),(2,1,'Varad','+45.25','2024-03-30','18:49:54',8),(5,2,'Varad','-25.23','2024-03-30','18:54:49',9),(2,5,'Varad','+25.23','2024-03-30','18:54:49',10),(5,1,'Varad','-20.56','2024-03-30','18:56:30',11),(1,5,'Varad','+20.56','2024-03-30','18:56:30',12),(1,5,'Mahesh','-2000.0','2024-03-30','18:57:03',13),(5,1,'Mahesh','+2000.0','2024-03-30','18:57:03',14),(1,2,'Varad','-500.0','2024-03-30','19:28:09',15),(2,1,'Varad','+500.0','2024-03-30','19:28:09',16),(1,2,'Varad','-124.12','2024-03-31','14:15:56',17),(2,1,'Varad','+124.12','2024-03-31','14:15:56',18),(9,2,'Varad','-45.12','2024-03-31','14:33:35',19);
+INSERT INTO `transaction_history` VALUES (1,2,'Varad','-20.5','2024-03-30','18:45:03',4),(1,2,'Varad','-25.22','2024-03-30','18:47:36',5),(2,1,'Varad','+25.22','2024-03-30','18:47:36',6),(1,2,'Varad','-45.25','2024-03-30','18:49:54',7),(2,1,'Varad','+45.25','2024-03-30','18:49:54',8),(5,2,'Varad','-25.23','2024-03-30','18:54:49',9),(2,5,'Varad','+25.23','2024-03-30','18:54:49',10),(5,1,'Varad','-20.56','2024-03-30','18:56:30',11),(1,5,'Varad','+20.56','2024-03-30','18:56:30',12),(1,5,'Mahesh','-2000.0','2024-03-30','18:57:03',13),(5,1,'Mahesh','+2000.0','2024-03-30','18:57:03',14),(1,2,'Varad','-500.0','2024-03-30','19:28:09',15),(2,1,'Varad','+500.0','2024-03-30','19:28:09',16),(1,2,'Varad','-124.12','2024-03-31','14:15:56',17),(2,1,'Varad','+124.12','2024-03-31','14:15:56',18),(9,2,'Varad','-45.12','2024-03-31','14:33:35',19),(1,4,'yuvati','-100.0','2024-05-03','18:37:52',45),(4,1,'yuvati','+100.0','2024-05-03','18:37:52',46),(1,5,'Mahesh','-12.0','2024-05-03','18:51:37',47),(5,1,'Mahesh','+12.0','2024-05-03','18:51:37',48),(11,1,'Varad','-45.0','2024-05-03','18:52:51',49),(1,11,'Varad','+45.0','2024-05-03','18:52:51',50),(11,5,'Mahesh','-123.0','2024-05-03','18:53:45',51),(5,11,'Mahesh','+123.0','2024-05-03','18:53:45',52);
 /*!40000 ALTER TABLE `transaction_history` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -161,4 +161,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-19 19:56:53
+-- Dump completed on 2024-05-03 19:18:10

@@ -15,7 +15,7 @@ class Change_password(customtkinter.CTk):
         super().__init__()
         self.title("CHANGE PASSWORD")
         self.config(bg=colors[0])
-        self.geometry("600x400")
+        self.geometry("600x400+500+250")
         self.account_number = account_number
 
         self.frame = CTkFrame(master=self, width=320, height=360, fg_color=colors[1], corner_radius=16,
@@ -27,11 +27,11 @@ class Change_password(customtkinter.CTk):
         self.label_1.place(x=50, y=45)
 
         self.password_entry = CTkEntry(master=self.frame, width=220, placeholder_text="New Password",
-                                       fg_color="#424769")
+                                       fg_color="#424769", show="●")
         self.password_entry.place(x=50, y=100)
 
         self.cnfpassword_entry = CTkEntry(master=self.frame, width=220, placeholder_text="Confirm Password",
-                                          fg_color="#424769")
+                                          fg_color="#424769",show="●")
         self.cnfpassword_entry.place(x=50, y=155)
 
         self.change_button = CTkButton(master=self.frame, width=220, text="CHANGE", corner_radius=6,

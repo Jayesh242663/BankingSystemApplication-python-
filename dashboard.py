@@ -152,21 +152,21 @@ class Dashboard(customtkinter.CTk):
             self.deposit_frame = CTkFrame(master=self.main_view, height=400, fg_color=colors[1], corner_radius=16)
             self.deposit_frame.pack(fill="x", pady=(45, 0), padx=27)
 
-            self.label_transaction = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+            self.label_transaction = CTkLabel(master=self.deposit_frame, text_color=colors[2],
                                               text="Deposit\nTo Perform any transaction.\nPlease fill the given "
                                                    "details.",
                                               font=("Arial Black", 20))
             self.label_transaction.place(x=150, y=10)
 
-            self.amount_label = CTkLabel(master=self.transaction_frame, text_color=colors[2],
+            self.amount_label = CTkLabel(master=self.deposit_frame, text_color=colors[2],
                                          text="Amount to be Deposited",
                                          font=("Arial BLack", 17))
             self.amount_label.place(x=35, y=250)
 
-            self.amount_entry = CTkEntry(master=self.transaction_frame, width=200, font=("Arial Black", 17))
+            self.amount_entry = CTkEntry(master=self.deposit_frame, width=200, font=("Arial Black", 17))
             self.amount_entry.place(x=335, y=250)
 
-            self.Deposit_button = CTkButton(master=self.transaction_frame, text="Deposit", command=self.add_money)
+            self.Deposit_button = CTkButton(master=self.deposit_frame, text="Deposit", command=self.add_money)
             self.Deposit_button.place(x=225, y=350)
 
     def add_money(self):
@@ -247,55 +247,59 @@ class Dashboard(customtkinter.CTk):
                 if amt <= float(self.result[8]):
                     self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
                     amount_of_sender = self.cursor.fetchall()
-                    user_data = (amount_of_sender[0])
-                    amount_of_sender = str(user_data[8])
-
-                    self.amount_entry.delete(0, END)
-                    self.sender_entry.delete(0, END)
-
-                    self.password_of_account = CTkInputDialog(
-                        text=f"You are transfering money to {user_data[1]}\nAmount:{amt}\nPlease Enter your account "
-                             f"password to confirm transfer",
-                        title="Confirm the transaction",
-                        fg_color=colors[1],
-                        button_fg_color=colors[0])
-                    password_of_account = self.password_of_account.get_input()
-                    print(self.password_of_account)
-
-                    if password_of_account == self.password:
-                        remaining_balance = float(self.result[8]) - float(amt)
-                        print(remaining_balance)
-
-                        self.cursor.execute("update acc_details set balance = %s where accno = %s",
-                                            (remaining_balance, self.username,))
-
-                        new_amount = float(amount_of_sender) + float(amt)
-                        new_amount = str(new_amount)
-
-                        self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s",
-                                            (new_amount, acc_no,))
-
-                        messagebox.showinfo("Transaction", "Transaction Successful")
-                        add_amt = f"+{amt}"
-                        minus_amt = f"-{amt}"
-                        self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
-                        trass = self.cursor.fetchall()
-                        print(trass)
-                        self.cursor.execute(
-                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
-                            "%s,%s,%s,%s,%s,%s)",
-                            (self.username, acc_no, user_data[1], minus_amt, date, time))
-                        self.cursor.execute(
-                            "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
-                            "%s,%s,%s,%s,%s,%s)",
-                            (acc_no, self.username, user_data[1], add_amt, date, time))
-                        print("history done")
-                        self.db.commit()
-                        CTkLabel(master=self.balance_metric, text=f"{remaining_balance}", text_color="#fff",
-                                 font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw",
-                                                                                pady=(0, 10))
+                    print(amount_of_sender)
+                    if amount_of_sender == []:
+                        messagebox.showerror("Error", "This Account doesn't exist")
                     else:
-                        messagebox.showerror("Error", "Your entered wrong password")
+                        user_data = (amount_of_sender[0])
+                        amount_of_sender = str(user_data[8])
+
+                        self.amount_entry.delete(0, END)
+                        self.sender_entry.delete(0, END)
+
+                        self.password_of_account = CTkInputDialog(
+                            text=f"You are transfering money to {user_data[1]}\nAmount:{amt}\nPlease Enter your account "
+                                 f"password to confirm transfer",
+                            title="Confirm the transaction",
+                            fg_color=colors[1],
+                            button_fg_color=colors[0])
+                        password_of_account = self.password_of_account.get_input()
+                        print(self.password_of_account)
+
+                        if password_of_account == self.password:
+                            remaining_balance = float(self.result[8]) - float(amt)
+                            print(remaining_balance)
+
+                            self.cursor.execute("update acc_details set balance = %s where accno = %s",
+                                                (remaining_balance, self.username,))
+
+                            new_amount = float(amount_of_sender) + float(amt)
+                            new_amount = str(new_amount)
+
+                            self.cursor.execute("UPDATE acc_details SET balance = %s WHERE accno = %s",
+                                                (new_amount, acc_no,))
+
+                            messagebox.showinfo("Transaction", "Transaction Successful")
+                            add_amt = f"+{amt}"
+                            minus_amt = f"-{amt}"
+                            self.cursor.execute("SELECT * from acc_details where accno = %s ", (acc_no,))
+                            trass = self.cursor.fetchall()
+                            print(trass)
+                            self.cursor.execute(
+                                "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
+                                "%s,%s,%s,%s,%s,%s)",
+                                (self.username, acc_no, user_data[1], minus_amt, date, time))
+                            self.cursor.execute(
+                                "insert into transaction_history(accno, sender_accno, name ,amount, date , time) values("
+                                "%s,%s,%s,%s,%s,%s)",
+                                (acc_no, self.username, user_data[1], add_amt, date, time))
+                            print("history done")
+                            self.db.commit()
+                            CTkLabel(master=self.balance_metric, text=f"{remaining_balance}", text_color="#fff",
+                                     font=("Arial Black", 15), justify="left").grid(row=1, column=1, sticky="nw",
+                                                                                    pady=(0, 10))
+                        else:
+                            messagebox.showerror("Error", "Your entered wrong password")
                 else:
                     messagebox.showerror("Error", "You have low balance")
             else:

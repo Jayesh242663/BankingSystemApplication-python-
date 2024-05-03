@@ -18,7 +18,7 @@ class Security_questions(customtkinter.CTk):
         super().__init__()
         self.title("SECURITY QUESTIONS")
         self.config(bg=colors[0])
-        self.geometry("600x400")
+        self.geometry("600x400+550+220")
 
         self.load_questions()
 
@@ -89,21 +89,24 @@ class Security_questions(customtkinter.CTk):
             cursor = db.cursor()
             cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
             result = cursor.fetchone()
-            print(result[0])
-
-            if result:
-                user_answers = json.loads(result[0])
-                if user_answers == user_answers:
-                    print("User answers match the stored answers.")
-                    change_password_page = Change_password(account_number=account_number)
-                    change_password_page.mainloop()
-
-                else:
-                    print("User answers do not match the stored answers.")
+            if result is []:
+                messagebox.showerror("Error", "Invalid Credentials")
             else:
-                print("No user answers found for the provided account number.")
 
-            db.close()
+                if result:
+                    user_answers = json.loads(result[0])
+                    if user_answers == user_answers:
+                        print("User answers match the stored answers.")
+                        self.destroy()
+                        change_password_page = Change_password(account_number=account_number)
+                        change_password_page.mainloop()
+
+                    else:
+                        messagebox.showerror("Error", "User answers do not match the stored answers.")
+                        print("User answers do not match the stored answers.")
+                else:
+                    messagebox.showerror("Error", "No user answer found for the provided account number")
+                    print("No user answers found for the provided account number.")
 
         except mysql.connector.Error as err:
             print("Error:", err)
