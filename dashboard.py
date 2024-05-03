@@ -1,13 +1,11 @@
 import itertools
 from datetime import datetime
 from tkinter import messagebox
-
 import customtkinter
 import mysql
 from CTkTable import CTkTable
 from PIL import Image
 from customtkinter import *
-
 import connection
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]

@@ -1,11 +1,9 @@
 import json
 import tkinter
 from tkinter import messagebox
-
 import mysql.connector
 import customtkinter
 from customtkinter import *
-
 import connection
 
 colors = ["#070F2B", "#1B1A55", "#535C91"]
