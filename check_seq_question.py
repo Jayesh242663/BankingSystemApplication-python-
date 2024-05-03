@@ -34,7 +34,7 @@ class Security_questions(customtkinter.CTk):
     def create_question_widgets(self):
         self.answers = {}
         self.check_label = CTkLabel(master=self, text="FILL SECURITY QUESTIONS FOR YOUR VERIFICATION",
-                                    font=(fonts, 18),bg_color=colors[0])
+                                    font=(fonts, 18), bg_color=colors[0])
         self.check_label.place(x=50, y=10)
 
         self.frame = CTkFrame(master=self, width=1200, height=580, fg_color=colors[2], corner_radius=16,
@@ -75,6 +75,7 @@ class Security_questions(customtkinter.CTk):
 
         try:
             account_number = int(account_number)
+            print(account_number)
         except ValueError:
             messagebox.showerror("Error", "Account Number should be a number")
             return
@@ -89,24 +90,22 @@ class Security_questions(customtkinter.CTk):
             cursor = db.cursor()
             cursor.execute("SELECT user_answer FROM answer WHERE id = %s", (account_number,))
             result = cursor.fetchone()
-            if result is []:
+            if result is None:
                 messagebox.showerror("Error", "Invalid Credentials")
             else:
+                stored_answers = json.loads(result[0])
 
-                if result:
-                    user_answers = json.loads(result[0])
-                    if user_answers == user_answers:
-                        print("User answers match the stored answers.")
-                        self.destroy()
-                        change_password_page = Change_password(account_number=account_number)
-                        change_password_page.mainloop()
+                # Convert keys of user_answers to strings
+                user_answers_str_keys = {str(key): value for key, value in user_answers.items()}
 
-                    else:
-                        messagebox.showerror("Error", "User answers do not match the stored answers.")
-                        print("User answers do not match the stored answers.")
+                if stored_answers == user_answers_str_keys:
+                    print("User answers match the stored answers.")
+                    self.destroy()
+                    change_password_page = Change_password(account_number=account_number)
+                    change_password_page.mainloop()
                 else:
-                    messagebox.showerror("Error", "No user answer found for the provided account number")
-                    print("No user answers found for the provided account number.")
+                    messagebox.showerror("Error", "User answers do not match the stored answers.")
+                    print("User answers do not match the stored answers.")
 
         except mysql.connector.Error as err:
             print("Error:", err)
