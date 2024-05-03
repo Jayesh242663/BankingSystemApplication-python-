@@ -1,12 +1,12 @@
+import re
 import time
 import tkinter
 from datetime import datetime, date
-import re
+from tkinter import messagebox
 
 import customtkinter
-from mysql import connector
 from customtkinter import *
-from tkinter import messagebox
+from mysql import connector
 
 import connection
 from add_seq_questions import Security_questions_2
@@ -106,7 +106,7 @@ class AddDetails(customtkinter.CTk):
         self.female.place(x=580, y=135)
 
         self.account_type = CTkComboBox(master=self.frame,
-                                        values=["Current Account", "Personal Account", "Saving Account"])
+                                        values=["Current ", "Personal ", "Saving "])
         self.account_type.place(x=160, y=250)
 
         self.number_entry = CTkEntry(master=self.frame)
