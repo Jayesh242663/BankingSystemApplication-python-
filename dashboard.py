@@ -173,7 +173,7 @@ class Dashboard(customtkinter.CTk):
         username = self.username
         print(username)
         db = connection.Connection().get_connection()
-        entered_amount = float(self.amount_entry.get())
+        entered_amount = int(self.amount_entry.get())
 
         cursor = db.cursor()
         query = "SELECT balance FROM acc_details WHERE accno = %s"
@@ -181,8 +181,8 @@ class Dashboard(customtkinter.CTk):
         result = cursor.fetchone()
         print(result)
 
-        if result is not None:  # Check if result is not None
-            current_balance = int(result[0])
+        if result is not None:
+            current_balance = float(result[0])
             new_balance = current_balance + entered_amount
 
             update_query = "UPDATE acc_details SET balance = %s WHERE accno = %s"
