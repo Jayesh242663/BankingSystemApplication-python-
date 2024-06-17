@@ -16,6 +16,7 @@ To install and set up the Banking System Application locally, follow these steps
 Clone the repository from GitHub.
 '''bash
 git clone https://github.com/Jayesh242663/BankingSystemApplication-python-/
+'''
 Ensure you have Python and MySQL installed on your system.
 Set up the database using the provided Mysql file named bankingsys.sql
 Run the application script.
